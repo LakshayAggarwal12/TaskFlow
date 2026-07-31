@@ -2,6 +2,7 @@ const Board = require("../models/Board");
 const List = require("../models/List");
 const Task = require("../models/Task");
 const asyncHandler = require("../utils/asyncHandler");
+const logActivity = require("../utils/logActivity");
 
 // @route   POST /api/projects/:projectId/boards
 // @access  Private (effective role >= member)
@@ -15,6 +16,15 @@ const createBoard = asyncHandler(async (req, res) => {
     project: req.project._id,
     name,
     createdBy: req.user._id,
+  });
+
+  logActivity({
+    project: req.project._id,
+    actor: req.user._id,
+    action: "board.created",
+    targetType: "Board",
+    targetId: board._id,
+    message: `${req.user.name} created board "${board.name}"`,
   });
 
   res.status(201).json({ success: true, board });

@@ -1,6 +1,7 @@
 const Task = require("../models/Task");
 const List = require("../models/List");
 const asyncHandler = require("../utils/asyncHandler");
+const logActivity = require("../utils/logActivity");
 const { computeOrder, nextOrder } = require("../utils/ordering");
 
 // @route   POST /api/lists/:listId/tasks
@@ -26,6 +27,15 @@ const createTask = asyncHandler(async (req, res) => {
     assignees,
     order,
     createdBy: req.user._id,
+  });
+
+  logActivity({
+    project: req.project._id,
+    actor: req.user._id,
+    action: "task.created",
+    targetType: "Task",
+    targetId: task._id,
+    message: `${req.user.name} created task "${task.title}"`,
   });
 
   res.status(201).json({ success: true, task });
@@ -89,9 +99,21 @@ const moveTask = asyncHandler(async (req, res) => {
   const beforeTask = beforeTaskId ? await Task.findById(beforeTaskId) : null;
   const afterTask = afterTaskId ? await Task.findById(afterTaskId) : null;
 
+  const sourceListId = req.task.list.toString();
   req.task.list = targetListId;
   req.task.order = computeOrder(beforeTask?.order ?? null, afterTask?.order ?? null);
   await req.task.save();
+
+  if (sourceListId !== targetListId.toString()) {
+    logActivity({
+      project: req.project._id,
+      actor: req.user._id,
+      action: "task.moved",
+      targetType: "Task",
+      targetId: req.task._id,
+      message: `${req.user.name} moved "${req.task.title}" from "${req.list.name}" to "${targetList.name}"`,
+    });
+  }
 
   res.status(200).json({ success: true, task: req.task });
 });

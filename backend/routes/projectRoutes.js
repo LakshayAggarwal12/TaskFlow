@@ -6,6 +6,7 @@ const {
   setMemberOverride,
   removeMemberOverride,
 } = require("../controllers/projectController");
+const { getProjectActivity } = require("../controllers/activityController");
 const { protect } = require("../middleware/authMiddleware");
 const { requireProjectAccess, requireProjectRole } = require("../middleware/projectMiddleware");
 const projectBoardRoutes = require("./projectBoardRoutes");
@@ -25,6 +26,9 @@ router.route("/:id/overrides")
 
 router.route("/:id/overrides/:memberId")
   .delete(requireProjectAccess, requireProjectRole("admin"), removeMemberOverride);
+
+router.route("/:id/activity")
+  .get(requireProjectAccess, getProjectActivity);
 
 // Nested: /api/projects/:projectId/boards
 router.use("/:projectId/boards", projectBoardRoutes);

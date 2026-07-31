@@ -1,6 +1,7 @@
 const List = require("../models/List");
 const Task = require("../models/Task");
 const asyncHandler = require("../utils/asyncHandler");
+const logActivity = require("../utils/logActivity");
 const { computeOrder, nextOrder } = require("../utils/ordering");
 
 // @route   POST /api/boards/:boardId/lists
@@ -15,6 +16,15 @@ const createList = asyncHandler(async (req, res) => {
   const order = nextOrder(lastList ? lastList.order : null);
 
   const list = await List.create({ board: req.board._id, name, order });
+
+  logActivity({
+    project: req.project._id,
+    actor: req.user._id,
+    action: "list.created",
+    targetType: "List",
+    targetId: list._id,
+    message: `${req.user.name} created list "${list.name}"`,
+  });
 
   res.status(201).json({ success: true, list });
 });

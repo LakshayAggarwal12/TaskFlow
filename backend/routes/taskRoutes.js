@@ -9,6 +9,7 @@ const {
 } = require("../controllers/taskController");
 const { protect } = require("../middleware/authMiddleware");
 const { requireTaskAccess, requireTaskRole } = require("../middleware/taskMiddleware");
+const taskCommentRoutes = require("./taskCommentRoutes");
 
 const router = express.Router();
 router.use(protect);
@@ -27,5 +28,11 @@ router.route("/:id/subtasks")
 
 router.route("/:id/subtasks/:subtaskId")
   .patch(requireTaskAccess, requireTaskRole("member"), toggleSubtask);
+
+// Nested: /api/tasks/:taskId/comments
+router.use("/:id/comments", (req, res, next) => {
+  req.params.taskId = req.params.id; // let mergeParams-based nested router see it as taskId
+  next();
+}, taskCommentRoutes);
 
 module.exports = router;

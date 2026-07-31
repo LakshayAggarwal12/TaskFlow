@@ -12,6 +12,7 @@ const projectRoutes = require("./routes/projectRoutes");
 const boardRoutes = require("./routes/boardRoutes");
 const listRoutes = require("./routes/listRoutes");
 const taskRoutes = require("./routes/taskRoutes");
+const commentRoutes = require("./routes/commentRoutes");
 const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 
 // Connect to MongoDB
@@ -42,6 +43,7 @@ app.use("/api/projects", projectRoutes);
 app.use("/api/boards", boardRoutes);
 app.use("/api/lists", listRoutes);
 app.use("/api/tasks", taskRoutes);
+app.use("/api/comments", commentRoutes);
 
 // ---- Error Handling (must be last) ----
 app.use(notFound);
