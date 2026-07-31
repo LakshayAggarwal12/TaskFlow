@@ -8,6 +8,7 @@ const {
 } = require("../controllers/projectController");
 const { protect } = require("../middleware/authMiddleware");
 const { requireProjectAccess, requireProjectRole } = require("../middleware/projectMiddleware");
+const projectBoardRoutes = require("./projectBoardRoutes");
 
 const router = express.Router();
 
@@ -24,5 +25,8 @@ router.route("/:id/overrides")
 
 router.route("/:id/overrides/:memberId")
   .delete(requireProjectAccess, requireProjectRole("admin"), removeMemberOverride);
+
+// Nested: /api/projects/:projectId/boards
+router.use("/:projectId/boards", projectBoardRoutes);
 
 module.exports = router;

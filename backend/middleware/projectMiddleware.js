@@ -1,44 +1,20 @@
-const Project = require("../models/Project");
-const Workspace = require("../models/Workspace");
+const resolveProjectRole = require("../utils/resolveProjectRole");
 const { ROLE_RANK } = require("./workspaceMiddleware");
 
-// Loads the project from :projectId (or :id), confirms the user is at least
-// a workspace member, then resolves their EFFECTIVE role for this project:
-// project-level override if one exists, otherwise the workspace-level role.
-// Attaches req.project, req.workspace, and req.effectiveRole.
+// Loads the project from :projectId (or :id), resolves the user's effective
+// role (project override falls back to workspace role), and attaches
+// req.project, req.workspace, req.effectiveRole for downstream handlers.
 const requireProjectAccess = async (req, res, next) => {
   try {
     const projectId = req.params.projectId || req.params.id;
-    const project = await Project.findById(projectId);
-
-    if (!project || project.archived) {
-      return res.status(404).json({ message: "Project not found" });
-    }
-
-    const workspace = await Workspace.findById(project.workspace);
-    if (!workspace) {
-      return res.status(404).json({ message: "Parent workspace not found" });
-    }
-
-    const workspaceRole = workspace.getMemberRole(req.user._id);
-    if (!workspaceRole) {
-      return res.status(403).json({ message: "You are not a member of this project's workspace" });
-    }
-
-    // Workspace owner/admin always has at least admin-level project access,
-    // regardless of overrides — overrides can only apply to plain members.
-    let effectiveRole = workspaceRole;
-    if (workspaceRole === "member" || workspaceRole === "viewer") {
-      const override = project.getOverrideRole(req.user._id);
-      if (override) effectiveRole = override;
-    }
+    const { project, workspace, effectiveRole } = await resolveProjectRole(projectId, req.user._id);
 
     req.project = project;
     req.workspace = workspace;
     req.effectiveRole = effectiveRole;
     next();
   } catch (error) {
-    return res.status(400).json({ message: "Invalid project id" });
+    return res.status(error.status || 400).json({ message: error.message || "Invalid project id" });
   }
 };
 
