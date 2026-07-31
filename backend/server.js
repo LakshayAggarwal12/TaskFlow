@@ -8,6 +8,10 @@ dotenv.config();
 const connectDB = require("./config/db");
 const authRoutes = require("./routes/authRoutes");
 const workspaceRoutes = require("./routes/workspaceRoutes");
+const projectRoutes = require("./routes/projectRoutes");
+const boardRoutes = require("./routes/boardRoutes");
+const listRoutes = require("./routes/listRoutes");
+const taskRoutes = require("./routes/taskRoutes");
 const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 
 // Connect to MongoDB
@@ -34,6 +38,10 @@ app.get("/api/health", (req, res) => {
 // ---- Routes ----
 app.use("/api/auth", authRoutes);
 app.use("/api/workspaces", workspaceRoutes);
+app.use("/api/projects", projectRoutes);
+app.use("/api/boards", boardRoutes);
+app.use("/api/lists", listRoutes);
+app.use("/api/tasks", taskRoutes);
 
 // ---- Error Handling (must be last) ----
 app.use(notFound);
