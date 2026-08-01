@@ -1,7 +1,7 @@
 const express = require("express");
-const { createList, getBoardLists } = require("../controllers/listController");
-const { protect } = require("../middleware/authMiddleware");
-const { requireBoardAccess, requireBoardRole } = require("../middleware/boardMiddleware");
+const { createList, getBoardLists } = require("../src/controllers/listController");
+const { protect } = require("../src/middleware/authMiddleware");
+const { requireBoardAccess, requireBoardRole } = require("../src/middleware/boardMiddleware");
 
 const router = express.Router({ mergeParams: true });
 router.use(protect);

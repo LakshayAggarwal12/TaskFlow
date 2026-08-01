@@ -1,7 +1,7 @@
 const express = require("express");
-const { createTask, getListTasks } = require("../controllers/taskController");
-const { protect } = require("../middleware/authMiddleware");
-const { requireListAccess, requireListRole } = require("../middleware/listMiddleware");
+const { createTask, getListTasks } = require("../src/controllers/taskController");
+const { protect } = require("../src/middleware/authMiddleware");
+const { requireListAccess, requireListRole } = require("../src/middleware/listMiddleware");
 
 const router = express.Router({ mergeParams: true });
 router.use(protect);

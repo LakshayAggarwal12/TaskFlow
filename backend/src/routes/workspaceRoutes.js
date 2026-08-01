@@ -8,9 +8,9 @@ const {
   addMember,
   updateMemberRole,
   removeMember,
-} = require("../controllers/workspaceController");
-const { protect } = require("../middleware/authMiddleware");
-const { requireWorkspaceMember, requireWorkspaceRole } = require("../middleware/workspaceMiddleware");
+} = require("../src/controllers/workspaceController");
+const { protect } = require("../src/middleware/authMiddleware");
+const { requireWorkspaceMember, requireWorkspaceRole } = require("../src/middleware/workspaceMiddleware");
 
 const router = express.Router();
 

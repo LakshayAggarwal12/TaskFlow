@@ -1,7 +1,7 @@
 const express = require("express");
-const { updateComment, deleteComment } = require("../controllers/commentController");
-const { protect } = require("../middleware/authMiddleware");
-const { requireCommentAccess, requireCommentOwnerOrAdmin } = require("../middleware/commentMiddleware");
+const { updateComment, deleteComment } = require("../src/controllers/commentController");
+const { protect } = require("../src/middleware/authMiddleware");
+const { requireCommentAccess, requireCommentOwnerOrAdmin } = require("../src/middleware/commentMiddleware");
 
 const router = express.Router();
 router.use(protect);

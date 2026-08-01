@@ -5,16 +5,16 @@ const cookieParser = require("cookie-parser");
 
 dotenv.config();
 
-const connectDB = require("./config/db");
-const authRoutes = require("./routes/authRoutes");
-const workspaceRoutes = require("./routes/workspaceRoutes");
-const projectRoutes = require("./routes/projectRoutes");
-const boardRoutes = require("./routes/boardRoutes");
-const listRoutes = require("./routes/listRoutes");
-const taskRoutes = require("./routes/taskRoutes");
-const commentRoutes = require("./routes/commentRoutes");
-const sprintRoutes = require("./routes/sprintRoutes");
-const { notFound, errorHandler } = require("./middleware/errorMiddleware");
+const connectDB = require("./src/config/db");
+const authRoutes = require("./src/routes/authRoutes");
+const workspaceRoutes = require("./src/routes/workspaceRoutes");
+const projectRoutes = require("./src/routes/projectRoutes");
+const boardRoutes = require("./src/routes/boardRoutes");
+const listRoutes = require("./src/routes/listRoutes");
+const taskRoutes = require("./src/routes/taskRoutes");
+const commentRoutes = require("./src/routes/commentRoutes");
+const sprintRoutes = require("./src/routes/sprintRoutes");
+const { notFound, errorHandler } = require("./src/middleware/errorMiddleware");
 
 // Connect to MongoDB
 connectDB();
