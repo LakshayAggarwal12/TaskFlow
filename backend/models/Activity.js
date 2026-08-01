@@ -19,7 +19,7 @@ const activitySchema = new mongoose.Schema(
     },
     targetType: {
       type: String,
-      enum: ["Project", "Board", "List", "Task", "Comment"],
+      enum: ["Project", "Board", "List", "Task", "Comment", "Sprint"],
       required: true,
     },
     targetId: {

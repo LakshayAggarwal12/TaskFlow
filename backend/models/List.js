@@ -21,6 +21,13 @@ const listSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    // Marks this list as representing "completed" work (e.g. a "Done" or
+    // "Shipped" column). Analytics uses this flag instead of matching on
+    // the list's name, so it works regardless of naming/language choices.
+    isDoneList: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );

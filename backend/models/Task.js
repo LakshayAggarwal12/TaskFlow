@@ -15,6 +15,14 @@ const taskSchema = new mongoose.Schema(
       ref: "List",
       required: true,
     },
+    // A task can optionally belong to a sprint. Kept as a direct reference
+    // on the task (rather than an array on Sprint) so "all tasks in sprint X"
+    // and analytics aggregations are simple, indexed queries.
+    sprint: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Sprint",
+      default: null,
+    },
     title: {
       type: String,
       required: [true, "Task title is required"],
@@ -74,5 +82,6 @@ const taskSchema = new mongoose.Schema(
 );
 
 taskSchema.index({ list: 1, order: 1 });
+taskSchema.index({ sprint: 1 });
 
 module.exports = mongoose.model("Task", taskSchema);
