@@ -2,9 +2,9 @@ const Board = require("../models/Board");
 const List = require("../models/List");
 const Task = require("../models/Task");
 const User = require("../models/User");
-const asyncHandler = require("../../utils/asyncHandler");
-const { generateText, generateJSON } = require("../../utils/geminiClient");
-const escapeRegex = require("../../utils/escapeRegex");
+const asyncHandler = require("../utils/asyncHandler");
+const { generateText, generateJSON } = require("../utils/geminiClient");
+const escapeRegex = require("../utils/escapeRegex");
 
 // @route   POST /api/projects/:projectId/ai/draft-task
 // @access  Private (effective role >= member)

@@ -8,9 +8,10 @@ const {
   addMember,
   updateMemberRole,
   removeMember,
-} = require("../src/controllers/workspaceController");
-const { protect } = require("../src/middleware/authMiddleware");
-const { requireWorkspaceMember, requireWorkspaceRole } = require("../src/middleware/workspaceMiddleware");
+} = require("../controllers/workspaceController");
+const { protect } = require("../middleware/authMiddleware");
+const { requireWorkspaceMember, requireWorkspaceRole } = require("../middleware/workspaceMiddleware");
+const workspaceProjectRoutes = require("./workspaceProjectRoutes");
 
 const router = express.Router();
 
@@ -32,5 +33,8 @@ router.route("/:id/members")
 router.route("/:id/members/:memberId")
   .patch(requireWorkspaceMember, requireWorkspaceRole("admin"), updateMemberRole)
   .delete(requireWorkspaceMember, requireWorkspaceRole("admin"), removeMember);
+
+// Nested: /api/workspaces/:workspaceId/projects
+router.use("/:workspaceId/projects", workspaceProjectRoutes);
 
 module.exports = router;

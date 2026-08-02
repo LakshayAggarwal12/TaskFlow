@@ -1,5 +1,5 @@
 const Notification = require("../models/Notification");
-const asyncHandler = require("../../utils/asyncHandler");
+const asyncHandler = require("../utils/asyncHandler");
 
 // @route   GET /api/notifications?unreadOnly=true&page=1&limit=20
 // @access  Private

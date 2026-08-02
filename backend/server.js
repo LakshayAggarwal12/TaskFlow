@@ -14,6 +14,8 @@ const listRoutes = require("./src/routes/listRoutes");
 const taskRoutes = require("./src/routes/taskRoutes");
 const commentRoutes = require("./src/routes/commentRoutes");
 const sprintRoutes = require("./src/routes/sprintRoutes");
+const notificationRoutes = require("./src/routes/notificationRoutes");
+const { startReminderCron } = require("./src/jobs/reminderJob");
 const { notFound, errorHandler } = require("./src/middleware/errorMiddleware");
 
 // Connect to MongoDB
@@ -46,6 +48,7 @@ app.use("/api/lists", listRoutes);
 app.use("/api/tasks", taskRoutes);
 app.use("/api/comments", commentRoutes);
 app.use("/api/sprints", sprintRoutes);
+app.use("/api/notifications", notificationRoutes);
 
 // ---- Error Handling (must be last) ----
 app.use(notFound);
@@ -55,4 +58,5 @@ const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
   console.log(`Server running in ${process.env.NODE_ENV || "development"} mode on port ${PORT}`);
+  startReminderCron();
 });

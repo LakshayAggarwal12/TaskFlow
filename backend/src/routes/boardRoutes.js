@@ -1,7 +1,7 @@
 const express = require("express");
-const { getBoard, updateBoard, deleteBoard } = require("../src/controllers/boardController");
-const { protect } = require("../src/middleware/authMiddleware");
-const { requireBoardAccess, requireBoardRole } = require("../src/middleware/boardMiddleware");
+const { getBoard, updateBoard, deleteBoard } = require("../controllers/boardController");
+const { protect } = require("../middleware/authMiddleware");
+const { requireBoardAccess, requireBoardRole } = require("../middleware/boardMiddleware");
 const boardListRoutes = require("./boardListRoutes");
 
 const router = express.Router();

@@ -6,9 +6,9 @@ const {
   toggleSubtask,
   addSubtask,
   deleteTask,
-} = require("../src/controllers/taskController");
-const { protect } = require("../src/middleware/authMiddleware");
-const { requireTaskAccess, requireTaskRole } = require("../src/middleware/taskMiddleware");
+} = require("../controllers/taskController");
+const { protect } = require("../middleware/authMiddleware");
+const { requireTaskAccess, requireTaskRole } = require("../middleware/taskMiddleware");
 const taskCommentRoutes = require("./taskCommentRoutes");
 
 const router = express.Router();

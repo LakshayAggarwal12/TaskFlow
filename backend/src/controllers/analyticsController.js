@@ -1,7 +1,7 @@
 const Board = require("../models/Board");
 const List = require("../models/List");
 const Task = require("../models/Task");
-const asyncHandler = require("../../utils/asyncHandler");
+const asyncHandler = require("../utils/asyncHandler");
 
 // @route   GET /api/projects/:id/analytics/overview
 // @access  Private (project access) — req.project set by requireProjectAccess

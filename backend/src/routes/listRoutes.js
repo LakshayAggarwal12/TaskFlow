@@ -1,7 +1,7 @@
 const express = require("express");
-const { updateList, reorderList, deleteList } = require("../src/controllers/listController");
-const { protect } = require("../src/middleware/authMiddleware");
-const { requireListAccess, requireListRole } = require("../src/middleware/listMiddleware");
+const { updateList, reorderList, deleteList } = require("../controllers/listController");
+const { protect } = require("../middleware/authMiddleware");
+const { requireListAccess, requireListRole } = require("../middleware/listMiddleware");
 const listTaskRoutes = require("./listTaskRoutes");
 
 const router = express.Router();

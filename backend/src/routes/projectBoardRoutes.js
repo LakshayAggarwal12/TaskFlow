@@ -1,7 +1,7 @@
 const express = require("express");
-const { createBoard, getProjectBoards } = require("../src/controllers/boardController");
-const { protect } = require("../src/middleware/authMiddleware");
-const { requireProjectAccess, requireProjectRole } = require("../src/middleware/projectMiddleware");
+const { createBoard, getProjectBoards } = require("../controllers/boardController");
+const { protect } = require("../middleware/authMiddleware");
+const { requireProjectAccess, requireProjectRole } = require("../middleware/projectMiddleware");
 
 const router = express.Router({ mergeParams: true });
 router.use(protect);
