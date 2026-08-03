@@ -1,20 +1,23 @@
 import { NavLink, useParams } from "react-router-dom";
 import { LayoutDashboard, KanbanSquare, ListTodo, Zap, BarChart3, Activity, Settings, LogOut } from "lucide-react";
 import WorkspaceSwitcher from "../features/workspaces/WorkspaceSwitcher";
+import { useProjectBoards } from "../features/boards/hooks/useProjectBoards";
 import Avatar from "../components/ui/Avatar";
 import { useAuth } from "../context/AuthContext";
 
-const PROJECT_SCOPED_ITEMS = [
-  { label: "Board", icon: KanbanSquare },
-  { label: "Backlog", icon: ListTodo },
-  { label: "Sprints", icon: Zap },
-  { label: "Analytics", icon: BarChart3 },
-  { label: "Activity", icon: Activity },
-];
-
 export default function Sidebar() {
-  const { workspaceId } = useParams();
+  const { workspaceId, projectId } = useParams();
   const { user, logout } = useAuth();
+  const { data: boards } = useProjectBoards(projectId);
+  const primaryBoardId = boards?.[0]?._id;
+
+  const navLinkClass = ({ isActive }) =>
+    `flex items-center gap-2.5 px-3 h-9 rounded-md text-body transition-colors duration-fast ${
+      isActive ? "bg-accent-muted text-accent" : "text-secondary hover:text-primary hover:bg-surface2"
+    }`;
+
+  const disabledClass =
+    "flex items-center gap-2.5 px-3 h-9 rounded-md text-body text-tertiary cursor-not-allowed opacity-60";
 
   return (
     <aside className="w-60 shrink-0 h-screen sticky top-0 flex flex-col bg-surface1 border-r border-hairline px-3 py-4">
@@ -28,43 +31,55 @@ export default function Sidebar() {
       <WorkspaceSwitcher />
 
       <nav className="flex flex-col gap-0.5 mt-5">
-        <NavLink
-          to={`/w/${workspaceId}`}
-          end
-          className={({ isActive }) =>
-            `flex items-center gap-2.5 px-3 h-9 rounded-md text-body transition-colors duration-fast ${
-              isActive ? "bg-accent-muted text-accent" : "text-secondary hover:text-primary hover:bg-surface2"
-            }`
-          }
-        >
+        <NavLink to={`/w/${workspaceId}`} end className={navLinkClass}>
           <LayoutDashboard size={16} />
           Dashboard
         </NavLink>
 
-        <div className="mt-3 mb-1 px-3 text-caption text-tertiary">Project</div>
-        {PROJECT_SCOPED_ITEMS.map(({ label, icon: Icon }) => (
-          <div
-            key={label}
-            title="Available once you create your first project"
-            className="flex items-center gap-2.5 px-3 h-9 rounded-md text-body text-tertiary cursor-not-allowed opacity-60"
-          >
-            <Icon size={16} />
-            {label}
-          </div>
-        ))}
+        {projectId && (
+          <>
+            <div className="mt-3 mb-1 px-3 text-caption text-tertiary">Project</div>
+            {primaryBoardId ? (
+              <NavLink to={`/w/${workspaceId}/p/${projectId}/board/${primaryBoardId}`} className={navLinkClass}>
+                <KanbanSquare size={16} />
+                Board
+              </NavLink>
+            ) : (
+              <div title="Create a board first" className={disabledClass}>
+                <KanbanSquare size={16} />
+                Board
+              </div>
+            )}
+            <NavLink to={`/w/${workspaceId}/p/${projectId}/backlog`} className={navLinkClass}>
+              <ListTodo size={16} />
+              Backlog
+            </NavLink>
+            <NavLink to={`/w/${workspaceId}/p/${projectId}/sprints`} className={navLinkClass}>
+              <Zap size={16} />
+              Sprints
+            </NavLink>
+            <NavLink to={`/w/${workspaceId}/p/${projectId}/analytics`} className={navLinkClass}>
+              <BarChart3 size={16} />
+              Analytics
+            </NavLink>
+            <NavLink to={`/w/${workspaceId}/p/${projectId}/activity`} className={navLinkClass}>
+              <Activity size={16} />
+              Activity
+            </NavLink>
+          </>
+        )}
       </nav>
 
       <div className="mt-auto flex flex-col gap-0.5 pt-3 border-t border-hairline">
-        <NavLink
-          to="/account"
-          className={({ isActive }) =>
-            `flex items-center gap-2.5 px-3 h-9 rounded-md text-body transition-colors duration-fast ${
-              isActive ? "bg-accent-muted text-accent" : "text-secondary hover:text-primary hover:bg-surface2"
-            }`
-          }
-        >
+        {projectId && (
+          <NavLink to={`/w/${workspaceId}/p/${projectId}/settings`} className={navLinkClass}>
+            <Settings size={16} />
+            Project settings
+          </NavLink>
+        )}
+        <NavLink to={`/w/${workspaceId}/settings`} className={navLinkClass}>
           <Settings size={16} />
-          Settings
+          Workspace settings
         </NavLink>
         <div className="flex items-center gap-2.5 px-3 h-11 mt-1">
           <Avatar name={user?.name} size="sm" />

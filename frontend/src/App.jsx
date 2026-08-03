@@ -8,7 +8,15 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import WorkspaceSelectorPage from "./pages/WorkspaceSelectorPage";
 import WorkspaceDashboardPage from "./pages/WorkspaceDashboardPage";
+import WorkspaceSettingsPage from "./pages/WorkspaceSettingsPage";
 import ProjectHubPage from "./pages/ProjectHubPage";
+import ProjectSettingsPage from "./pages/ProjectSettingsPage";
+import BoardPage from "./pages/BoardPage";
+import BacklogPage from "./pages/BacklogPage";
+import SprintsListPage from "./pages/SprintsListPage";
+import SprintDetailPage from "./pages/SprintDetailPage";
+import AnalyticsPage from "./pages/AnalyticsPage";
+import ActivityPage from "./pages/ActivityPage";
 import AccountPage from "./pages/AccountPage";
 import NotFoundPage from "./pages/NotFoundPage";
 
@@ -32,7 +40,16 @@ export default function App() {
       <Route element={<ProtectedRoute />}>
         <Route element={<AppLayout />}>
           <Route path="/w/:workspaceId" element={<WorkspaceDashboardPage />} />
+          <Route path="/w/:workspaceId/settings" element={<WorkspaceSettingsPage />} />
+
           <Route path="/w/:workspaceId/p/:projectId" element={<ProjectHubPage />} />
+          <Route path="/w/:workspaceId/p/:projectId/settings" element={<ProjectSettingsPage />} />
+          <Route path="/w/:workspaceId/p/:projectId/board/:boardId" element={<BoardPage />} />
+          <Route path="/w/:workspaceId/p/:projectId/backlog" element={<BacklogPage />} />
+          <Route path="/w/:workspaceId/p/:projectId/sprints" element={<SprintsListPage />} />
+          <Route path="/w/:workspaceId/p/:projectId/sprints/:sprintId" element={<SprintDetailPage />} />
+          <Route path="/w/:workspaceId/p/:projectId/analytics" element={<AnalyticsPage />} />
+          <Route path="/w/:workspaceId/p/:projectId/activity" element={<ActivityPage />} />
         </Route>
       </Route>
 
@@ -41,9 +58,9 @@ export default function App() {
   );
 }
 
-// /account doesn't have a :workspaceId in its URL, but should still show the
-// full sidebar/topbar shell — this tiny wrapper reuses AppLayout without
-// requiring route nesting under /w/:workspaceId.
+// /account doesn't have a :workspaceId in its URL, but should still show a
+// consistent page shell — this tiny wrapper avoids requiring route nesting
+// under /w/:workspaceId just for one page.
 function AppLayoutWrapper({ children }) {
   return (
     <div className="flex min-h-screen bg-canvas">

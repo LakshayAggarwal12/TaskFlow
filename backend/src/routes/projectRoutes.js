@@ -10,6 +10,7 @@ const { getProjectActivity } = require("../controllers/activityController");
 const { protect } = require("../middleware/authMiddleware");
 const { requireProjectAccess, requireProjectRole } = require("../middleware/projectMiddleware");
 const projectBoardRoutes = require("./projectBoardRoutes");
+const projectAiRoutes = require("./projectAiRoutes");
 
 const router = express.Router();
 
@@ -32,5 +33,8 @@ router.route("/:id/activity")
 
 // Nested: /api/projects/:projectId/boards
 router.use("/:projectId/boards", projectBoardRoutes);
+
+// Nested: /api/projects/:projectId/ai
+router.use("/:projectId/ai", projectAiRoutes);
 
 module.exports = router;

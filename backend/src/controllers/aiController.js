@@ -3,7 +3,7 @@ const List = require("../models/List");
 const Task = require("../models/Task");
 const User = require("../models/User");
 const asyncHandler = require("../utils/asyncHandler");
-const { generateText, generateJSON } = require("../utils/geminiClient");
+const { generateText, generateJSON } = require("../utils/groqClient");
 const escapeRegex = require("../utils/escapeRegex");
 
 // @route   POST /api/projects/:projectId/ai/draft-task
@@ -72,7 +72,7 @@ Respond with ONLY valid JSON in exactly this shape:
 // @route   POST /api/projects/:projectId/ai/search
 // @access  Private (project access)
 // Body: { query }
-// SECURITY NOTE: Gemini never generates or executes a raw database query.
+// SECURITY NOTE: Groq never generates or executes a raw database query.
 // It only extracts a small set of constrained filter fields from the
 // natural-language query; this controller then builds the actual MongoDB
 // query itself from those fields. This prevents prompt injection or a

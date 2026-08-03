@@ -30,3 +30,44 @@ export function useCreateWorkspace() {
     },
   });
 }
+
+export function useUpdateWorkspace(id) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (data) => workspacesApi.update(id, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["workspaces", id] });
+      queryClient.invalidateQueries({ queryKey: ["workspaces"] });
+    },
+  });
+}
+
+export function useDeleteWorkspace() {
+  return useMutation({
+    mutationFn: (id) => workspacesApi.remove(id),
+  });
+}
+
+export function useAddWorkspaceMember(id) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (data) => workspacesApi.addMember(id, data),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["workspaces", id] }),
+  });
+}
+
+export function useUpdateWorkspaceMemberRole(id) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ memberId, role }) => workspacesApi.updateMemberRole(id, memberId, { role }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["workspaces", id] }),
+  });
+}
+
+export function useRemoveWorkspaceMember(id) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (memberId) => workspacesApi.removeMember(id, memberId),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["workspaces", id] }),
+  });
+}
