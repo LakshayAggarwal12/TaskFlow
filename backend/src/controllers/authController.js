@@ -12,7 +12,11 @@ const sendTokenResponse = (user, statusCode, res) => {
     expires: new Date(Date.now() + cookieExpiresDays * 24 * 60 * 60 * 1000),
     httpOnly: true, // not accessible via client-side JS — mitigates XSS token theft
     secure: process.env.NODE_ENV === "production", // HTTPS only in production
-    sameSite: "lax",
+    // "none" is required for the cookie to be sent cross-site (e.g. a Vercel
+    // frontend calling a Render backend on a different domain) — but "none"
+    // is only valid when secure=true, so it only applies in production.
+    // Locally (http://localhost), "lax" is used since "none" requires HTTPS.
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
   };
 
   res
@@ -69,6 +73,8 @@ const logoutUser = asyncHandler(async (req, res) => {
   res.cookie("token", "none", {
     expires: new Date(Date.now() + 10 * 1000),
     httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
   });
   res.status(200).json({ success: true, message: "Logged out successfully" });
 });

@@ -4,6 +4,9 @@
   "description": "TaskFlow - AI-Enhanced Project Management Platform (Backend)",
   "main": "server.js",
   "type": "commonjs",
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js"
