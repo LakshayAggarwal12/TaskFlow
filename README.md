@@ -21,7 +21,7 @@ Boards, sprints, and real collaboration — with a Generative AI layer that assi
 
 <br/>
 
-**[Live Demo](#)** &nbsp;·&nbsp; **[Report Bug](#)** &nbsp;·&nbsp; **[Request Feature](#)**
+**[Live Demo](https://taskflow-gray-two.vercel.app/)**
 
 > 🔗 Frontend: `<add Vercel URL after deployment>` &nbsp;|&nbsp; Backend: `<add Render URL after deployment>`
 
