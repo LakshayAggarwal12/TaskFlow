@@ -54,13 +54,6 @@ app.use("/api/notifications", notificationRoutes);
 app.use(notFound);
 app.use(errorHandler);
 
-app.get("/api/health", (req, res) => {
-    res.status(200).json({
-        status: "ok",
-        message: "TaskFlow backend is running"
-    });
-});
-
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
