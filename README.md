@@ -297,22 +297,6 @@ Full request/response examples with sample Postman payloads are documented separ
 
 <br/>
 
-## 🖼️ Screenshots
-
-<div align="center">
-
-| Dashboard | Kanban Board |
-|:---:|:---:|
-| _add screenshot_ | _add screenshot_ |
-
-| Task Drawer + AI | Sprint Burndown |
-|:---:|:---:|
-| _add screenshot_ | _add screenshot_ |
-
-</div>
-
-<br/>
-
 ## 🗺️ Roadmap
 
 - [ ] File attachments on tasks
