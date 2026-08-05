@@ -65,7 +65,7 @@ function AppLayoutWrapper({ children }) {
   return (
     <div className="flex min-h-screen bg-canvas">
       <div className="flex-1 flex flex-col min-w-0 mx-auto max-w-6xl">
-        <main className="flex-1 px-8 py-8">{children}</main>
+        <main className="flex-1 px-4 py-6 sm:px-6 sm:py-8 md:px-8">{children}</main>
       </div>
     </div>
   );

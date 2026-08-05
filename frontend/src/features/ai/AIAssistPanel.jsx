@@ -5,17 +5,6 @@ import AISuggestionCard from "./AISuggestionCard";
 import Badge from "../../components/ui/Badge";
 import { useToast } from "../../context/ToastContext";
 
-function getAiErrorMessage(err, fallbackMessage) {
-  const apiMessage = err.response?.data?.message;
-  const apiDetail = err.response?.data?.detail;
-
-  if (apiMessage && apiDetail) {
-    return `${apiMessage} ${apiDetail}`;
-  }
-
-  return apiMessage || apiDetail || fallbackMessage;
-}
-
 export default function AIAssistPanel({ task, projectId, onApplyDescription, onApplyLabel }) {
   const draftTask = useDraftTask(projectId);
   const suggestLabel = useSuggestLabel(projectId);
@@ -27,7 +16,7 @@ export default function AIAssistPanel({ task, projectId, onApplyDescription, onA
     try {
       await draftTask.mutateAsync({ title: task.title });
     } catch (err) {
-      toast.error(getAiErrorMessage(err, "AI drafting failed — try again."));
+      toast.error(err.response?.data?.message || "AI drafting failed — try again.");
       setActiveAction(null);
     }
   };
@@ -37,7 +26,7 @@ export default function AIAssistPanel({ task, projectId, onApplyDescription, onA
     try {
       await suggestLabel.mutateAsync({ title: task.title, description: task.description || "" });
     } catch (err) {
-      toast.error(getAiErrorMessage(err, "AI suggestion failed — try again."));
+      toast.error(err.response?.data?.message || "AI suggestion failed — try again.");
       setActiveAction(null);
     }
   };

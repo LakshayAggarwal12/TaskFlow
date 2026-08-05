@@ -17,7 +17,7 @@ export default function AnalyticsPage() {
     return (
       <div className="max-w-4xl mx-auto">
         <Skeleton className="h-9 w-48 mb-6" />
-        <div className="grid grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
           <Skeleton className="h-40" />
           <Skeleton className="h-40" />
           <Skeleton className="h-40" />
@@ -30,7 +30,7 @@ export default function AnalyticsPage() {
     <div className="max-w-4xl mx-auto">
       <h1 className="text-h1 font-display text-primary mb-6">Analytics</h1>
 
-      <div className="grid grid-cols-3 gap-5 mb-5">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-5">
         <div className="bg-surface1 border border-hairline rounded-lg p-5 flex flex-col items-center justify-center">
           <ProgressRing percent={overview.completionRate} label="complete" />
           <p className="text-body-sm text-tertiary mt-3 text-center">
@@ -38,13 +38,13 @@ export default function AnalyticsPage() {
           </p>
         </div>
 
-        <div className="col-span-2 bg-surface1 border border-hairline rounded-lg p-5">
+        <div className="md:col-span-2 bg-surface1 border border-hairline rounded-lg p-5">
           <h2 className="text-h2 font-display text-primary mb-4">Status distribution</h2>
           <StatusDistributionChart distribution={overview.statusDistribution} />
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-5">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         <div className="bg-surface1 border border-hairline rounded-lg p-5">
           <h2 className="text-h2 font-display text-primary mb-4">Team workload</h2>
           <WorkloadByMemberChart workload={overview.workloadByMember} />

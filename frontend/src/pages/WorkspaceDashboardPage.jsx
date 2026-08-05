@@ -35,13 +35,13 @@ export default function WorkspaceDashboardPage() {
         </p>
       </motion.div>
 
-      {/* Asymmetric grid: wide left column (Projects), narrow right column (Team) */}
-      <div className="grid grid-cols-3 gap-5">
-        <div className="col-span-2 flex flex-col gap-5">
+      {/* Asymmetric grid: wide left column (Projects), narrow right column (Team) — stacks to one column below md */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <div className="md:col-span-2 flex flex-col gap-5">
           <ProjectsWidget workspaceId={workspaceId} />
           <RecentNotificationsWidget />
         </div>
-        <div className="col-span-1">
+        <div className="md:col-span-1">
           {isLoading ? <Skeleton className="h-64" /> : <TeamWidget workspace={workspace} />}
         </div>
       </div>

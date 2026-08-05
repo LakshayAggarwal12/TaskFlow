@@ -50,10 +50,10 @@ export default function SprintDetailPage() {
 
   return (
     <div className="max-w-3xl mx-auto">
-      <div className="flex items-start justify-between mb-1">
-        <div>
+      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 mb-1">
+        <div className="min-w-0">
           <div className="flex items-center gap-2">
-            <h1 className="text-h1 font-display text-primary">{sprint.name}</h1>
+            <h1 className="text-h1 font-display text-primary truncate">{sprint.name}</h1>
             <Badge tone={sprint.status === "completed" ? "success" : "accent"}>{sprint.status}</Badge>
           </div>
           <p className="text-body-sm text-tertiary mt-1">
@@ -69,8 +69,8 @@ export default function SprintDetailPage() {
 
       {sprint.goal && <p className="text-body text-secondary mt-3 mb-6">"{sprint.goal}"</p>}
 
-      <div className="grid grid-cols-3 gap-5 mb-6">
-        <div className="col-span-2 bg-surface1 border border-hairline rounded-lg p-5">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-6">
+        <div className="md:col-span-2 bg-surface1 border border-hairline rounded-lg p-5">
           <h2 className="text-h2 font-display text-primary mb-4">Burndown</h2>
           <BurndownChart snapshot={snapshot} />
         </div>
@@ -89,11 +89,11 @@ export default function SprintDetailPage() {
       )}
 
       <div className="bg-surface1 border border-hairline rounded-lg overflow-hidden">
-        <div className="flex items-center justify-between px-5 py-4 border-b border-hairline">
+        <div className="flex flex-wrap items-center justify-between gap-2 px-5 py-4 border-b border-hairline">
           <h2 className="text-h2 font-display text-primary">Tasks ({tasks.length})</h2>
           {sprint.status !== "completed" && availableTasks.length > 0 && (
-            <div className="flex items-center gap-2">
-              <Select value={selectedTaskId} onChange={(e) => setSelectedTaskId(e.target.value)} className="h-8 text-body-sm w-48">
+            <div className="flex items-center gap-2 w-full sm:w-auto">
+              <Select value={selectedTaskId} onChange={(e) => setSelectedTaskId(e.target.value)} className="h-8 text-body-sm flex-1 sm:w-48">
                 <option value="">Add a task...</option>
                 {availableTasks.map((t) => (
                   <option key={t._id} value={t._id}>{t.title}</option>

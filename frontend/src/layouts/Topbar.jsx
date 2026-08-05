@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { Search, Bell } from "lucide-react";
+import { Search, Bell, Menu } from "lucide-react";
 import { useWorkspace } from "../features/workspaces/hooks/useWorkspaces";
 import { useProject } from "../features/projects/hooks/useProject";
 import { useNotifications } from "../features/notifications/hooks/useNotifications";
 import NotificationPanel from "../features/notifications/NotificationPanel";
 import SignalDot from "../components/ui/SignalDot";
 
-export default function Topbar() {
+export default function Topbar({ onMenuClick }) {
   const { workspaceId, projectId } = useParams();
   const navigate = useNavigate();
   const { data: workspace } = useWorkspace(workspaceId);
@@ -21,20 +21,39 @@ export default function Topbar() {
   const breadcrumb = project ? `${workspace?.name || ""} / ${project.name}` : workspace?.name;
 
   return (
-    <header className="h-14 shrink-0 sticky top-0 z-20 flex items-center justify-between px-6 bg-canvas/95 backdrop-blur border-b border-hairline">
-      <p className="text-body-sm text-secondary truncate">
-        {breadcrumb || <span className="inline-block w-32 h-3.5 rounded bg-surface2 animate-pulse" />}
-      </p>
+    <header className="h-14 shrink-0 sticky top-0 z-20 flex items-center justify-between px-4 sm:px-6 bg-canvas/95 backdrop-blur border-b border-hairline">
+      <div className="flex items-center gap-3 min-w-0">
+        <button
+          onClick={onMenuClick}
+          aria-label="Open menu"
+          className="md:hidden -ml-1 w-9 h-9 shrink-0 rounded-md flex items-center justify-center text-secondary hover:text-primary hover:bg-surface2 transition-colors duration-fast"
+        >
+          <Menu size={18} />
+        </button>
+        <p className="text-body-sm text-secondary truncate">
+          {breadcrumb || <span className="inline-block w-32 h-3.5 rounded bg-surface2 animate-pulse" />}
+        </p>
+      </div>
 
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-2 sm:gap-3 shrink-0">
         {projectId ? (
-          <button
-            onClick={() => navigate(`/w/${workspaceId}/p/${projectId}/backlog`)}
-            className="hidden md:flex items-center gap-2 h-9 px-3 rounded-md bg-surface2 border border-hairline hover:border-strong text-tertiary hover:text-secondary text-body-sm transition-colors duration-fast w-64"
-          >
-            <Search size={14} />
-            Ask AI or search...
-          </button>
+          <>
+            {/* Full search field on tablet+; icon-only on phones to save space */}
+            <button
+              onClick={() => navigate(`/w/${workspaceId}/p/${projectId}/backlog`)}
+              className="hidden md:flex items-center gap-2 h-9 px-3 rounded-md bg-surface2 border border-hairline hover:border-strong text-tertiary hover:text-secondary text-body-sm transition-colors duration-fast w-64"
+            >
+              <Search size={14} />
+              Ask AI or search...
+            </button>
+            <button
+              onClick={() => navigate(`/w/${workspaceId}/p/${projectId}/backlog`)}
+              aria-label="Search"
+              className="md:hidden w-9 h-9 rounded-md flex items-center justify-center text-secondary hover:text-primary hover:bg-surface2 transition-colors duration-fast"
+            >
+              <Search size={17} />
+            </button>
+          </>
         ) : (
           <div
             title="Available once you're inside a project"

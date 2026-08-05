@@ -58,18 +58,18 @@ export default function ProjectHubPage() {
 
   return (
     <div className="max-w-4xl mx-auto">
-      <div className="flex items-center justify-between mb-8">
-        <div>
-          <h1 className="text-h1 font-display text-primary">{project?.name || "Project"}</h1>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+        <div className="min-w-0">
+          <h1 className="text-h1 font-display text-primary truncate">{project?.name || "Project"}</h1>
           {project?.description && <p className="text-body-sm text-secondary mt-1">{project.description}</p>}
         </div>
-        <Button onClick={() => setIsCreateOpen(true)}>
+        <Button onClick={() => setIsCreateOpen(true)} className="shrink-0">
           <Plus size={15} /> New board
         </Button>
       </div>
 
       {isLoading && (
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           <Skeleton className="h-28" />
           <Skeleton className="h-28" />
         </div>
@@ -85,7 +85,7 @@ export default function ProjectHubPage() {
       )}
 
       {!isLoading && boards?.length > 0 && (
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {boards.map((b, i) => (
             <motion.button
               key={b._id}

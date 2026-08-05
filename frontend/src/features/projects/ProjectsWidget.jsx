@@ -21,7 +21,7 @@ export default function ProjectsWidget({ workspaceId }) {
       </div>
 
       {isLoading && (
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <Skeleton className="h-24" />
           <Skeleton className="h-24" />
         </div>
@@ -42,7 +42,7 @@ export default function ProjectsWidget({ workspaceId }) {
       )}
 
       {!isLoading && projects?.length > 0 && (
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           {projects.map((p, i) => (
             <ProjectCard key={p._id} project={p} workspaceId={workspaceId} index={i} />
           ))}

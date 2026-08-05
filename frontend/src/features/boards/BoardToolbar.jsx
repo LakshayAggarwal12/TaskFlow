@@ -39,7 +39,7 @@ export default function BoardToolbar({ board }) {
   };
 
   return (
-    <div className="flex items-center justify-between mb-5">
+    <div className="flex items-center justify-between gap-3 mb-5">
       {isEditing ? (
         <Input
           autoFocus
@@ -50,15 +50,15 @@ export default function BoardToolbar({ board }) {
           className="h-9 max-w-xs"
         />
       ) : (
-        <h1 className="text-h1 font-display text-primary">{board.name}</h1>
+        <h1 className="text-h1 font-display text-primary truncate">{board.name}</h1>
       )}
 
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 shrink-0">
         <Link
           to={`/w/${workspaceId}/p/${projectId}/backlog`}
-          className="flex items-center gap-1.5 px-3 h-9 rounded-md text-body-sm text-secondary hover:text-primary hover:bg-surface2 transition-colors duration-fast"
+          className="flex items-center gap-1.5 px-2.5 sm:px-3 h-9 rounded-md text-body-sm text-secondary hover:text-primary hover:bg-surface2 transition-colors duration-fast"
         >
-          <ListTodo size={14} /> Backlog
+          <ListTodo size={14} /> <span className="hidden sm:inline">Backlog</span>
         </Link>
         <Dropdown
           align="right"

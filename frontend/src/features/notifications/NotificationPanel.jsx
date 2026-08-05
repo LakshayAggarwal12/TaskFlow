@@ -29,7 +29,7 @@ export default function NotificationPanel({ isOpen, onClose }) {
             animate={{ opacity: 1, x: 0, y: 0 }}
             exit={{ opacity: 0, x: 24, y: -8 }}
             transition={{ duration: 0.22, ease: [0, 0, 0.2, 1] }}
-            className="fixed top-16 right-6 z-50 w-96 max-h-[70vh] bg-surface2 border border-hairline rounded-lg shadow-modal flex flex-col overflow-hidden"
+            className="fixed top-16 right-3 left-3 sm:left-auto sm:right-6 z-50 w-auto sm:w-96 max-h-[70vh] bg-surface2 border border-hairline rounded-lg shadow-modal flex flex-col overflow-hidden"
           >
             <div className="flex items-center justify-between px-4 py-3 border-b border-hairline">
               <h2 className="text-h3 text-primary">Notifications</h2>

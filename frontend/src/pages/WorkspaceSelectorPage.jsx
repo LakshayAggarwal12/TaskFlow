@@ -22,9 +22,9 @@ export default function WorkspaceSelectorPage() {
 
   if (isLoading) {
     return (
-      <div className="max-w-2xl mx-auto px-6 py-16">
+      <div className="max-w-2xl mx-auto px-4 py-10 sm:px-6 sm:py-16">
         <Skeleton className="h-8 w-64 mb-8" />
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <Skeleton className="h-28" />
           <Skeleton className="h-28" />
         </div>
@@ -36,7 +36,7 @@ export default function WorkspaceSelectorPage() {
 
   if (workspaces?.length === 0) {
     return (
-      <div className="min-h-screen flex items-center justify-center px-6">
+      <div className="min-h-screen flex items-center justify-center px-4 sm:px-6">
         <EmptyState
           icon={Boxes}
           title="Create your first workspace"
@@ -53,14 +53,14 @@ export default function WorkspaceSelectorPage() {
   }
 
   return (
-    <div className="max-w-2xl mx-auto px-6 py-16">
-      <div className="flex items-center justify-between mb-8">
+    <div className="max-w-2xl mx-auto px-4 py-10 sm:px-6 sm:py-16">
+      <div className="flex flex-wrap items-center justify-between gap-3 mb-8">
         <h1 className="text-h1 font-display text-primary">Your workspaces</h1>
         <Button variant="secondary" onClick={() => setIsCreateOpen(true)}>
           <Plus size={16} /> New workspace
         </Button>
       </div>
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {workspaces.map((w, i) => (
           <motion.button
             key={w._id}
