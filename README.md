@@ -731,10 +731,14 @@ B.Tech CSE (Data Science) · ABES Engineering College, AKTU
 
 ---
 
-## ⭐ Star History
+## Star History
 
-<a href="https://star-history.com/#LakshayAggarwal12/TaskFlow&Date">
-  <img src="https://api.star-history.com/svg?repos=LakshayAggarwal12/taskflow&type=Date" alt="Star History Chart" width="100%"/>
+<a href="https://www.star-history.com/?type=date&repos=LakshayAggarwal12%2FTaskFlow">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=LakshayAggarwal12/TaskFlow&type=date&theme=dark&legend=top-left&sealed_token=UDL5NuMuNS1h4zDLaaxPWtaC_ApioPqiFmSIhIwY5Vy8Gb_Qh3kp3mdzke4G5qzjp0UQqqUKsm1thPMUXyEZmd8XAjjECAK3GxMm54AkHdqKRhX4RvLM2aEuc8Vu5zFFgvJ37fQm52Yv2moJvtCKqXAntZ-HIXSgN3-yOiofUhaRBPfuYkBtYzBhQGI2" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=LakshayAggarwal12/TaskFlow&type=date&legend=top-left&sealed_token=UDL5NuMuNS1h4zDLaaxPWtaC_ApioPqiFmSIhIwY5Vy8Gb_Qh3kp3mdzke4G5qzjp0UQqqUKsm1thPMUXyEZmd8XAjjECAK3GxMm54AkHdqKRhX4RvLM2aEuc8Vu5zFFgvJ37fQm52Yv2moJvtCKqXAntZ-HIXSgN3-yOiofUhaRBPfuYkBtYzBhQGI2" />
+   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=LakshayAggarwal12/TaskFlow&type=date&legend=top-left&sealed_token=UDL5NuMuNS1h4zDLaaxPWtaC_ApioPqiFmSIhIwY5Vy8Gb_Qh3kp3mdzke4G5qzjp0UQqqUKsm1thPMUXyEZmd8XAjjECAK3GxMm54AkHdqKRhX4RvLM2aEuc8Vu5zFFgvJ37fQm52Yv2moJvtCKqXAntZ-HIXSgN3-yOiofUhaRBPfuYkBtYzBhQGI2" />
+ </picture>
 </a>
 
 ---
