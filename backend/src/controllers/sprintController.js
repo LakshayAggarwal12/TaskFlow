@@ -4,6 +4,7 @@ const List = require("../models/List");
 const Board = require("../models/Board");
 const asyncHandler = require("../utils/asyncHandler");
 const logActivity = require("../utils/logActivity");
+const { notifyMany } = require("../utils/createNotification");
 
 // @route   POST /api/projects/:projectId/sprints
 // @access  Private (effective role >= member)
@@ -148,6 +149,20 @@ const closeSprint = asyncHandler(async (req, res) => {
     targetId: req.sprint._id,
     message: `${req.user.name} closed sprint "${req.sprint.name}"`,
   });
+
+  // Notify every unique assignee across the sprint's tasks (except the actor)
+  const sprintTasks = await Task.find({ sprint: req.sprint._id }).select("assignees");
+  const uniqueAssignees = [
+    ...new Set(sprintTasks.flatMap((t) => t.assignees.map((id) => id.toString()))),
+  ].filter((id) => id !== req.user._id.toString());
+
+  if (uniqueAssignees.length > 0) {
+    notifyMany(uniqueAssignees, {
+      type: "sprint_closed",
+      message: `${req.user.name} closed sprint "${req.sprint.name}"`,
+      relatedProject: req.project._id,
+    });
+  }
 
   // AI-generated summary hooks in here in Phase 5 (see Sprint.aiSummary field)
   res.status(200).json({ success: true, sprint: req.sprint });

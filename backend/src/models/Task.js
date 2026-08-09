@@ -77,6 +77,16 @@ const taskSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
+    // Flags used by the reminder cron job to avoid duplicate notifications.
+    // Reset to false whenever dueDate is changed (see taskController.updateTask).
+    dueSoonNotified: {
+      type: Boolean,
+      default: false,
+    },
+    overdueNotified: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );

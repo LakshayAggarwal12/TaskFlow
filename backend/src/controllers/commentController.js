@@ -1,6 +1,8 @@
 const Comment = require("../models/Comment");
+const Task = require("../models/Task");
 const asyncHandler = require("../utils/asyncHandler");
 const logActivity = require("../utils/logActivity");
+const { notifyMany } = require("../utils/createNotification");
 
 // @route   POST /api/tasks/:taskId/comments
 // @access  Private (effective role >= member) — req.task/req.project set by requireTaskAccess
@@ -26,6 +28,20 @@ const addComment = asyncHandler(async (req, res) => {
     targetId: comment._id,
     message: `${req.user.name} commented on "${req.task.title}"`,
   });
+
+  // Notify task assignees about the new comment (skip the comment author)
+  const task = await Task.findById(req.task._id).select("assignees");
+  if (task && task.assignees.length > 0) {
+    const toNotify = task.assignees
+      .map((id) => id.toString())
+      .filter((id) => id !== req.user._id.toString());
+    notifyMany(toNotify, {
+      type: "comment_added",
+      message: `${req.user.name} commented on "${req.task.title}"`,
+      relatedTask: req.task._id,
+      relatedProject: req.project._id,
+    });
+  }
 
   res.status(201).json({ success: true, comment });
 });

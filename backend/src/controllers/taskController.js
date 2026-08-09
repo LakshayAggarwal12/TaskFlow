@@ -3,6 +3,7 @@ const List = require("../models/List");
 const asyncHandler = require("../utils/asyncHandler");
 const logActivity = require("../utils/logActivity");
 const { computeOrder, nextOrder } = require("../utils/ordering");
+const { createNotification, notifyMany } = require("../utils/createNotification");
 
 // @route   POST /api/lists/:listId/tasks
 // @access  Private (effective role >= member)
@@ -38,6 +39,19 @@ const createTask = asyncHandler(async (req, res) => {
     message: `${req.user.name} created task "${task.title}"`,
   });
 
+  // Notify every assignee (except the creator — they already know)
+  if (assignees && assignees.length > 0) {
+    const toNotify = assignees
+      .map((id) => id.toString())
+      .filter((id) => id !== req.user._id.toString());
+    notifyMany(toNotify, {
+      type: "task_assigned",
+      message: `${req.user.name} assigned you to "${task.title}"`,
+      relatedTask: task._id,
+      relatedProject: req.project._id,
+    });
+  }
+
   res.status(201).json({ success: true, task });
 });
 
@@ -70,11 +84,40 @@ const updateTask = asyncHandler(async (req, res) => {
     "dueDate", "estimatedHours", "loggedHours", "assignees",
   ];
 
+  // Snapshot current assignees before applying changes so we can diff
+  const previousAssignees = new Set(req.task.assignees.map((id) => id.toString()));
+
+  // Reset reminder flags when the due date changes so the cron can re-notify
+  if (req.body.dueDate !== undefined) {
+    const oldDue = req.task.dueDate ? req.task.dueDate.toISOString() : null;
+    const newDue = req.body.dueDate ? new Date(req.body.dueDate).toISOString() : null;
+    if (oldDue !== newDue) {
+      req.task.dueSoonNotified = false;
+      req.task.overdueNotified = false;
+    }
+  }
+
   editableFields.forEach((field) => {
     if (req.body[field] !== undefined) req.task[field] = req.body[field];
   });
 
   await req.task.save();
+
+  // Notify newly-added assignees (skip anyone who was already assigned)
+  if (req.body.assignees) {
+    const newlyAdded = req.body.assignees
+      .map((id) => id.toString())
+      .filter((id) => !previousAssignees.has(id) && id !== req.user._id.toString());
+    if (newlyAdded.length > 0) {
+      notifyMany(newlyAdded, {
+        type: "task_assigned",
+        message: `${req.user.name} assigned you to "${req.task.title}"`,
+        relatedTask: req.task._id,
+        relatedProject: req.project._id,
+      });
+    }
+  }
+
   res.status(200).json({ success: true, task: req.task });
 });
 
