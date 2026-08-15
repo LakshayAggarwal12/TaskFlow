@@ -11,7 +11,7 @@
 [![Node.js](https://img.shields.io/badge/Node.js-18+-339933?style=for-the-badge&logo=node.js&logoColor=white)](#-tech-stack)
 [![Express](https://img.shields.io/badge/Express-4-000000?style=for-the-badge&logo=express&logoColor=white)](#-tech-stack)
 [![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-47A248?style=for-the-badge&logo=mongodb&logoColor=white)](#-tech-stack)
-[![AI](https://img.shields.io/badge/AI-Groq_Llama_3.3-F55036?style=for-the-badge)](#-ai-implementation)
+[![AI](https://img.shields.io/badge/-Groq_(GPT--OSS_120B)-F55036?style=flat-square)](#-ai-implementation)
 
 [![Open Source](https://img.shields.io/badge/Open%20Source-Yes-brightgreen?style=flat-square)](#-contributing)
 [![Deploy Status](https://img.shields.io/badge/deploy-pending-yellow?style=flat-square)](#-deployment)
