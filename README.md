@@ -153,37 +153,45 @@ TaskFlow's architecture is built specifically around answering those three quest
 ---
 
 ## 🛠️ Tech Stack
- 
+
 <table>
-<tr><td><b>Frontend</b></td><td>
-![React](https://img.shields.io/badge/-React-61DAFB?style=flat-square&logo=react&logoColor=black)
-![Vite](https://img.shields.io/badge/-Vite-646CFF?style=flat-square&logo=vite&logoColor=white)
-![Tailwind](https://img.shields.io/badge/-Tailwind_CSS-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white)
-![React Router](https://img.shields.io/badge/-React_Router-CA4245?style=flat-square&logo=reactrouter&logoColor=white)
-![React Query](https://img.shields.io/badge/-React_Query-FF4154?style=flat-square&logo=reactquery&logoColor=white)
-![Framer Motion](https://img.shields.io/badge/-Framer_Motion-0055FF?style=flat-square&logo=framer&logoColor=white)
-![Zustand](https://img.shields.io/badge/-Zustand-433E38?style=flat-square)
-![dnd kit](https://img.shields.io/badge/-dnd--kit-764ABC?style=flat-square)
- 
-</td></tr>
-<tr><td><b>Backend</b></td><td>
-![Node.js](https://img.shields.io/badge/-Node.js-339933?style=flat-square&logo=node.js&logoColor=white)
-![Express](https://img.shields.io/badge/-Express-000000?style=flat-square&logo=express&logoColor=white)
-![MongoDB](https://img.shields.io/badge/-MongoDB-47A248?style=flat-square&logo=mongodb&logoColor=white)
-![Mongoose](https://img.shields.io/badge/-Mongoose-880000?style=flat-square&logo=mongoose&logoColor=white)
-![JWT](https://img.shields.io/badge/-JWT-000000?style=flat-square&logo=jsonwebtokens&logoColor=white)
-![node-cron](https://img.shields.io/badge/-node--cron-5C5C5C?style=flat-square)
- 
-</td></tr>
-<tr><td><b>AI & Infra</b></td><td>
-![Groq](https://img.shields.io/badge/-Groq_(GPT--OSS_120B)-F55036?style=flat-square)
-![Render](https://img.shields.io/badge/-Render-46E3B7?style=flat-square&logo=render&logoColor=black)
-![Vercel](https://img.shields.io/badge/-Vercel-000000?style=flat-square&logo=vercel&logoColor=white)
-![Postman](https://img.shields.io/badge/-Postman-FF6C37?style=flat-square&logo=postman&logoColor=white)
- 
-</td></tr>
+<tr>
+<td><b>Frontend</b></td>
+<td>
+<img src="https://img.shields.io/badge/-React-61DAFB?style=flat-square&logo=react&logoColor=black">
+<img src="https://img.shields.io/badge/-Vite-646CFF?style=flat-square&logo=vite&logoColor=white">
+<img src="https://img.shields.io/badge/-Tailwind_CSS-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white">
+<img src="https://img.shields.io/badge/-React_Router-CA4245?style=flat-square&logo=reactrouter&logoColor=white">
+<img src="https://img.shields.io/badge/-React_Query-FF4154?style=flat-square&logo=reactquery&logoColor=white">
+<img src="https://img.shields.io/badge/-Framer_Motion-0055FF?style=flat-square&logo=framer&logoColor=white">
+<img src="https://img.shields.io/badge/-Zustand-433E38?style=flat-square">
+<img src="https://img.shields.io/badge/-dnd--kit-764ABC?style=flat-square">
+</td>
+</tr>
+
+<tr>
+<td><b>Backend</b></td>
+<td>
+<img src="https://img.shields.io/badge/-Node.js-339933?style=flat-square&logo=node.js&logoColor=white">
+<img src="https://img.shields.io/badge/-Express-000000?style=flat-square&logo=express&logoColor=white">
+<img src="https://img.shields.io/badge/-MongoDB-47A248?style=flat-square&logo=mongodb&logoColor=white">
+<img src="https://img.shields.io/badge/-Mongoose-880000?style=flat-square&logo=mongoose&logoColor=white">
+<img src="https://img.shields.io/badge/-JWT-000000?style=flat-square&logo=jsonwebtokens&logoColor=white">
+<img src="https://img.shields.io/badge/-node--cron-5C5C5C?style=flat-square">
+</td>
+</tr>
+
+<tr>
+<td><b>AI & Infra</b></td>
+<td>
+<img src="https://img.shields.io/badge/-Groq_(GPT--OSS_120B)-F55036?style=flat-square">
+<img src="https://img.shields.io/badge/-Render-46E3B7?style=flat-square&logo=render&logoColor=black">
+<img src="https://img.shields.io/badge/-Vercel-000000?style=flat-square&logo=vercel&logoColor=white">
+<img src="https://img.shields.io/badge/-Postman-FF6C37?style=flat-square&logo=postman&logoColor=white">
+</td>
+</tr>
 </table>
-<br/>
+
 
 ---
 
