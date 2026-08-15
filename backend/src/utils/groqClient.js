@@ -9,7 +9,7 @@ const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 // Llama 3.3 70B — good quality/speed tradeoff on Groq's free tier for the
 // kind of short, structured generations this app needs (task drafts,
 // label suggestions, filter extraction, sprint summaries).
-const MODEL = "llama-3.3-70b-versatile";
+const MODEL = "openai/gpt-oss-120b";
 
 // Plain text generation (used for the sprint summary narrative)
 const generateText = async (prompt) => {

@@ -153,25 +153,37 @@ TaskFlow's architecture is built specifically around answering those three quest
 ---
 
 ## 🛠️ Tech Stack
-
-| Technology | Purpose | Why Chosen |
-|---|---|---|
-| **React 18 + Vite** | Frontend UI & build tooling | Fast HMR, minimal config, industry-standard component model |
-| **Tailwind CSS** | Styling | Utility-first approach lets the entire design-token system live in one config file, not scattered CSS |
-| **React Router v6** | Client-side routing | Nested routes map naturally onto the app's nested data model |
-| **TanStack React Query** | Server state management | Built-in caching, loading/error states, and optimistic updates with automatic rollback — critical for drag-and-drop |
-| **Axios** | HTTP client | Interceptor support for global auth-token attachment and 401 handling |
-| **React Hook Form** | Form state & validation | Uncontrolled inputs avoid re-rendering forms on every keystroke |
-| **Framer Motion** | Animation | Declarative API integrates cleanly with React; used for drawers, toasts, drag feedback |
-| **dnd-kit** | Drag-and-drop | Accessible (keyboard-operable) by default, unlike most drag libraries |
-| **Zustand** | One scoped piece of client state | Deliberately minimal — tracks only the actively-dragged task, never duplicates server data |
-| **Node.js + Express** | Backend runtime & framework | Mature, minimal-overhead REST API framework |
-| **MongoDB + Mongoose** | Database & ODM | Flexible document model fits the nested workspace→project→board→task hierarchy well |
-| **JWT + bcrypt** | Authentication | Stateless auth; industry-standard password hashing |
-| **node-cron** | Scheduled jobs | In-process scheduling for due-date reminder notifications |
-| **Groq API (Llama 3.3 70B)** | AI inference | Fast inference, generous free tier, OpenAI-compatible JSON mode |
-| **Render** | Backend hosting | Simple Node deploys with free-tier availability |
-| **Vercel** | Frontend hosting | Zero-config Vite/React deploys with instant rollbacks |
+ 
+<table>
+<tr><td><b>Frontend</b></td><td>
+![React](https://img.shields.io/badge/-React-61DAFB?style=flat-square&logo=react&logoColor=black)
+![Vite](https://img.shields.io/badge/-Vite-646CFF?style=flat-square&logo=vite&logoColor=white)
+![Tailwind](https://img.shields.io/badge/-Tailwind_CSS-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white)
+![React Router](https://img.shields.io/badge/-React_Router-CA4245?style=flat-square&logo=reactrouter&logoColor=white)
+![React Query](https://img.shields.io/badge/-React_Query-FF4154?style=flat-square&logo=reactquery&logoColor=white)
+![Framer Motion](https://img.shields.io/badge/-Framer_Motion-0055FF?style=flat-square&logo=framer&logoColor=white)
+![Zustand](https://img.shields.io/badge/-Zustand-433E38?style=flat-square)
+![dnd kit](https://img.shields.io/badge/-dnd--kit-764ABC?style=flat-square)
+ 
+</td></tr>
+<tr><td><b>Backend</b></td><td>
+![Node.js](https://img.shields.io/badge/-Node.js-339933?style=flat-square&logo=node.js&logoColor=white)
+![Express](https://img.shields.io/badge/-Express-000000?style=flat-square&logo=express&logoColor=white)
+![MongoDB](https://img.shields.io/badge/-MongoDB-47A248?style=flat-square&logo=mongodb&logoColor=white)
+![Mongoose](https://img.shields.io/badge/-Mongoose-880000?style=flat-square&logo=mongoose&logoColor=white)
+![JWT](https://img.shields.io/badge/-JWT-000000?style=flat-square&logo=jsonwebtokens&logoColor=white)
+![node-cron](https://img.shields.io/badge/-node--cron-5C5C5C?style=flat-square)
+ 
+</td></tr>
+<tr><td><b>AI & Infra</b></td><td>
+![Groq](https://img.shields.io/badge/-Groq_(GPT--OSS_120B)-F55036?style=flat-square)
+![Render](https://img.shields.io/badge/-Render-46E3B7?style=flat-square&logo=render&logoColor=black)
+![Vercel](https://img.shields.io/badge/-Vercel-000000?style=flat-square&logo=vercel&logoColor=white)
+![Postman](https://img.shields.io/badge/-Postman-FF6C37?style=flat-square&logo=postman&logoColor=white)
+ 
+</td></tr>
+</table>
+<br/>
 
 ---
 
@@ -255,7 +267,7 @@ flowchart LR
     User(["👤 User"]) --> FE["⚛️ React Frontend<br/>(Vercel)"]
     FE -->|REST / JWT| BE["🟢 Express Backend<br/>(Render)"]
     BE -->|Mongoose| DB[("🍃 MongoDB Atlas")]
-    BE -->|Structured Prompts| AI["🤖 Groq API<br/>(Llama 3.3 70B)"]
+    BE -->|Structured Prompts| AI["🤖 Groq API<br/>(gpt-oss-120b)"]
     BE -->|Scheduled| CRON["⏰ node-cron<br/>Reminder Job"]
     CRON -->|Writes| DB
     AI -->|JSON Suggestion| BE
@@ -594,7 +606,7 @@ Full step-by-step guide (including the cross-origin cookie fix required for spli
 
 ## 🤖 AI Implementation
 
-**Model:** Groq API running Llama 3.3 70B (`llama-3.3-70b-versatile`) — chosen for fast inference and a generous free tier suited to short, structured generations.
+**Model:** Groq API running Llama 3.3 70B (`openai/gpt-oss-120b`) — chosen for fast inference and a generous free tier suited to short, structured generations.
 
 **Design principle:** AI is an assistant, never an autonomous writer.
 
