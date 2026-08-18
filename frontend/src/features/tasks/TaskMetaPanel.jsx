@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Plus, X } from "lucide-react";
+import { Plus, X, Calendar } from "lucide-react";
 import Select from "../../components/ui/Select";
 import Badge from "../../components/ui/Badge";
 import Chip from "../../components/ui/Chip";
@@ -30,26 +30,41 @@ export default function TaskMetaPanel({ task, members = [], onUpdate }) {
     <div className="flex flex-col gap-4">
       <div className="grid grid-cols-2 gap-3">
         <div>
-          <span className="text-caption text-tertiary block mb-1.5">Priority</span>
-          <Select value={task.priority} onChange={(e) => onUpdate({ priority: e.target.value })}>
-            <option value="low">Low</option>
-            <option value="medium">Medium</option>
-            <option value="high">High</option>
-          </Select>
+          <span className="text-caption text-tertiary block mb-2">Priority</span>
+          <div className="flex items-center gap-2">
+            <span className={`w-2 h-2 rounded-full shrink-0 ${
+              task.priority === "high"
+                ? "bg-priority-high"
+                : task.priority === "medium"
+                ? "bg-priority-medium"
+                : "bg-priority-low"
+            }`} />
+            <Select value={task.priority} onChange={(e) => onUpdate({ priority: e.target.value })}>
+              <option value="low">Low</option>
+              <option value="medium">Medium</option>
+              <option value="high">High</option>
+            </Select>
+          </div>
         </div>
         <div>
-          <span className="text-caption text-tertiary block mb-1.5">Due date</span>
-          <input
-            type="date"
-            value={toDateInputValue(task.dueDate)}
-            onChange={(e) => onUpdate({ dueDate: e.target.value ? new Date(e.target.value).toISOString() : null })}
-            className="h-10 w-full px-3 rounded-md bg-surface2 border border-hairline text-body text-primary focus:outline-none focus:border-accent transition-colors duration-fast"
-          />
+          <span className="text-caption text-tertiary block mb-2">Due date</span>
+          <div className="relative">
+            <Calendar size={13} className="absolute left-3 top-1/2 -translate-y-1/2 text-tertiary pointer-events-none" />
+            <input
+              type="date"
+              value={toDateInputValue(task.dueDate)}
+              onChange={(e) => onUpdate({ dueDate: e.target.value ? new Date(e.target.value).toISOString() : null })}
+              className="h-10 w-full pl-8 pr-3 rounded-md bg-surface2 border border-hairline text-body text-primary focus:outline-none focus:border-accent transition-colors duration-fast"
+            />
+          </div>
         </div>
       </div>
 
       <div>
-        <span className="text-caption text-tertiary block mb-1.5">Assignees</span>
+        <span className="text-caption text-tertiary block mb-2">Assignees</span>
+        {task.assignees?.length === 0 && (
+          <p className="text-body-sm text-tertiary italic mb-1">No assignees</p>
+        )}
         <div className="flex flex-wrap gap-1.5">
           {members.map((m) => {
             const isAssigned = task.assignees.some((a) => a._id === m.user._id);
@@ -68,7 +83,7 @@ export default function TaskMetaPanel({ task, members = [], onUpdate }) {
       </div>
 
       <div>
-        <span className="text-caption text-tertiary block mb-1.5">Labels</span>
+        <span className="text-caption text-tertiary block mb-2">Labels</span>
         <div className="flex flex-wrap gap-1.5 items-center">
           {task.labels?.map((label) => (
             <Chip key={label} onRemove={() => removeLabel(label)}>

@@ -8,6 +8,7 @@
   }
   body {
     @apply bg-canvas text-primary;
+    font-feature-settings: "cv11", "ss01";
   }
   ::selection {
     @apply bg-accent-muted text-primary;
@@ -39,5 +40,12 @@
   }
   .scrollbar-thin::-webkit-scrollbar-track {
     background: transparent;
+  }
+  /* Hide scrollbar entirely (still scrollable) */
+  .scrollbar-none {
+    scrollbar-width: none;
+  }
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
   }
 }

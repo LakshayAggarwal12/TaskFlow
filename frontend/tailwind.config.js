@@ -5,6 +5,7 @@ export default {
   theme: {
     extend: {
       colors: {
+        surface0: "#09090B",
         canvas: "#0E0F11",
         surface1: "#16181B",
         surface2: "#1E2124",
@@ -63,6 +64,7 @@ export default {
       boxShadow: {
         elevate: "0 4px 16px rgba(0,0,0,0.4)",
         modal: "0 12px 40px rgba(0,0,0,0.5)",
+        glow: "0 0 0 1px rgba(212,162,76,0.25), 0 4px 20px rgba(212,162,76,0.1)",
       },
     },
   },

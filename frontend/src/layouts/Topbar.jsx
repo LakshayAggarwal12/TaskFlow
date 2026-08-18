@@ -21,7 +21,7 @@ export default function Topbar({ onMenuClick }) {
   const breadcrumb = project ? `${workspace?.name || ""} / ${project.name}` : workspace?.name;
 
   return (
-    <header className="h-14 shrink-0 sticky top-0 z-20 flex items-center justify-between px-4 sm:px-6 bg-canvas/95 backdrop-blur border-b border-hairline">
+    <header className="h-14 min-h-[56px] shrink-0 sticky top-0 z-20 flex items-center justify-between px-4 sm:px-6 bg-canvas/95 backdrop-blur-md border-b border-hairline">
       <div className="flex items-center gap-3 min-w-0">
         <button
           onClick={onMenuClick}
@@ -30,8 +30,20 @@ export default function Topbar({ onMenuClick }) {
         >
           <Menu size={18} />
         </button>
-        <p className="text-body-sm text-secondary truncate">
-          {breadcrumb || <span className="inline-block w-32 h-3.5 rounded bg-surface2 animate-pulse" />}
+        <p className="text-body-sm truncate">
+          {breadcrumb ? (
+            project ? (
+              <>
+                <span className="text-tertiary">{workspace?.name || ""}</span>
+                <span className="text-tertiary mx-1.5">/</span>
+                <span className="text-secondary">{project.name}</span>
+              </>
+            ) : (
+              <span className="text-secondary">{workspace?.name}</span>
+            )
+          ) : (
+            <span className="inline-block w-32 h-3.5 rounded bg-surface2 animate-pulse" />
+          )}
         </p>
       </div>
 
@@ -44,7 +56,8 @@ export default function Topbar({ onMenuClick }) {
               className="hidden md:flex items-center gap-2 h-9 px-3 rounded-md bg-surface2 border border-hairline hover:border-strong text-tertiary hover:text-secondary text-body-sm transition-colors duration-fast w-64"
             >
               <Search size={14} />
-              Ask AI or search...
+              <span className="flex-1 text-left">Ask AI or search...</span>
+              <span className="text-[10px] text-tertiary bg-surface3 rounded px-1 py-0.5 font-mono shrink-0">⌘K</span>
             </button>
             <button
               onClick={() => navigate(`/w/${workspaceId}/p/${projectId}/backlog`)}
@@ -60,7 +73,8 @@ export default function Topbar({ onMenuClick }) {
             className="hidden md:flex items-center gap-2 h-9 px-3 rounded-md bg-surface2 border border-hairline text-tertiary text-body-sm cursor-not-allowed w-64"
           >
             <Search size={14} />
-            Ask AI or search...
+            <span className="flex-1">Ask AI or search...</span>
+            <span className="text-[10px] text-tertiary bg-surface3 rounded px-1 py-0.5 font-mono shrink-0">⌘K</span>
           </div>
         )}
 

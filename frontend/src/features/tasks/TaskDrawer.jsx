@@ -67,15 +67,15 @@ export default function TaskDrawer() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.22 }}
-            className="fixed inset-0 z-40 bg-black/50"
+            className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm"
             onClick={close}
           />
           <motion.div
             initial={{ opacity: 0, x: 40 }}
             animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: 40 }}
+            exit={{ opacity: 0, x: 60 }}
             transition={{ duration: 0.36, ease: [0, 0, 0.2, 1] }}
-            className="fixed top-0 right-0 z-50 h-screen w-full max-w-xl bg-surface1 border-l border-hairline shadow-modal overflow-y-auto scrollbar-thin"
+            className="fixed top-0 right-0 z-50 h-screen w-full max-w-2xl bg-surface1 border-l border-hairline shadow-modal overflow-y-auto scrollbar-thin"
           >
             {isLoading || !task ? (
               <div className="p-6 flex flex-col gap-3">
@@ -85,7 +85,7 @@ export default function TaskDrawer() {
               </div>
             ) : (
               <div className="flex flex-col">
-                <div className="flex items-center justify-between px-6 pt-5 pb-3">
+                <div className="flex items-center justify-between px-6 pt-5 pb-3 bg-gradient-to-b from-surface2 to-transparent">
                   <div className="flex items-center gap-2">
                     <PriorityDot priority={task.priority} />
                     <span className="text-caption text-tertiary">Task</span>
@@ -106,7 +106,7 @@ export default function TaskDrawer() {
                     onChange={(e) => setTitleDraft(e.target.value)}
                     onBlur={() => titleDraft.trim() && titleDraft !== task.title && handleUpdate({ title: titleDraft.trim() })}
                     rows={1}
-                    className="text-h1 font-display text-primary bg-transparent resize-none focus:outline-none border-b border-transparent focus:border-hairline transition-colors duration-fast leading-tight"
+                    className="text-h1 font-display text-primary bg-transparent resize-none focus:outline-none pb-1 border-b border-transparent focus:border-accent transition-colors duration-fast leading-tight w-full"
                   />
 
                   <div>
@@ -138,6 +138,8 @@ export default function TaskDrawer() {
                   </div>
 
                   <TaskMetaPanel task={task} members={workspace?.members || []} onUpdate={handleUpdate} />
+
+                  <div className="border-t border-hairline" />
 
                   <SubtaskChecklist task={task} boardId={boardId} />
 

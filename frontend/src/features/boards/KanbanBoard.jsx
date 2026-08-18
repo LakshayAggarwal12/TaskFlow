@@ -147,13 +147,21 @@ export default function KanbanBoard({ board, lists }) {
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
     >
-      <div className="flex gap-4 overflow-x-auto scrollbar-thin pb-4">
-        <SortableContext items={sortedLists.map((l) => `list-${l._id}`)} strategy={horizontalListSortingStrategy}>
-          {sortedLists.map((list) => (
-            <KanbanList key={list._id} list={list} boardId={board._id} />
-          ))}
-        </SortableContext>
-        <NewListInline boardId={board._id} />
+      <div
+        className="relative"
+        style={{
+          maskImage: "linear-gradient(to right, transparent 0, black 24px, black calc(100% - 24px), transparent 100%)",
+          WebkitMaskImage: "linear-gradient(to right, transparent 0, black 24px, black calc(100% - 24px), transparent 100%)",
+        }}
+      >
+        <div className="flex gap-4 overflow-x-auto scrollbar-thin pb-4 px-6">
+          <SortableContext items={sortedLists.map((l) => `list-${l._id}`)} strategy={horizontalListSortingStrategy}>
+            {sortedLists.map((list) => (
+              <KanbanList key={list._id} list={list} boardId={board._id} />
+            ))}
+          </SortableContext>
+          <NewListInline boardId={board._id} />
+        </div>
       </div>
     </DndContext>
   );

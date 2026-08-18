@@ -23,17 +23,19 @@ function SidebarContent({ onNavigate }) {
   const primaryBoardId = boards?.[0]?._id;
 
   const navLinkClass = ({ isActive }) =>
-    `flex items-center gap-2.5 px-3 h-10 md:h-9 rounded-md text-body transition-colors duration-fast ${
-      isActive ? "bg-accent-muted text-accent" : "text-secondary hover:text-primary hover:bg-surface2"
+    `flex items-center gap-2.5 px-3 h-10 md:h-9 rounded-md text-body transition-colors duration-fast border-l-2 ${
+      isActive
+        ? "bg-accent-muted text-accent border-accent"
+        : "text-secondary hover:text-primary hover:bg-surface2 border-transparent"
     }`;
 
   const disabledClass =
-    "flex items-center gap-2.5 px-3 h-10 md:h-9 rounded-md text-body text-tertiary cursor-not-allowed opacity-60";
+    "flex items-center gap-2.5 px-3 h-10 md:h-9 rounded-md text-body text-tertiary cursor-not-allowed opacity-60 border-l-2 border-transparent";
 
   return (
     <>
       <div className="flex items-center gap-2 px-1 mb-5">
-        <span className="w-6 h-6 rounded-sm bg-accent flex items-center justify-center text-canvas text-caption font-bold">
+        <span className="w-6 h-6 rounded-sm bg-gradient-to-br from-accent to-accent-hover flex items-center justify-center text-canvas text-caption font-bold">
           T
         </span>
         <span className="text-h3 text-primary font-display">TaskFlow</span>
@@ -49,7 +51,7 @@ function SidebarContent({ onNavigate }) {
 
         {projectId && (
           <>
-            <div className="mt-3 mb-1 px-3 text-caption text-tertiary">Project</div>
+            <div className="mt-4 mb-1 px-3 text-caption text-tertiary uppercase tracking-widest">Project</div>
             {primaryBoardId ? (
               <NavLink to={`/w/${workspaceId}/p/${projectId}/board/${primaryBoardId}`} className={navLinkClass} onClick={onNavigate}>
                 <KanbanSquare size={16} />
@@ -92,7 +94,7 @@ function SidebarContent({ onNavigate }) {
           <Settings size={16} />
           Workspace settings
         </NavLink>
-        <div className="flex items-center gap-2.5 px-3 h-11 mt-1">
+        <div className="flex items-center gap-2.5 px-3 py-2.5 mt-1 rounded-md bg-surface2">
           <Avatar name={user?.name} size="sm" />
           <div className="flex-1 min-w-0">
             <p className="text-body-sm text-primary truncate">{user?.name}</p>
@@ -114,7 +116,7 @@ export default function Sidebar({ isOpen, onClose }) {
   return (
     <>
       {/* Desktop: always visible, static, takes up real layout space */}
-      <aside className="hidden md:flex w-60 shrink-0 h-screen sticky top-0 flex-col bg-surface1 border-r border-hairline px-3 py-4">
+      <aside className="hidden md:flex w-64 shrink-0 h-screen sticky top-0 flex-col bg-surface1 border-r border-hairline px-3 py-4">
         <SidebarContent />
       </aside>
 

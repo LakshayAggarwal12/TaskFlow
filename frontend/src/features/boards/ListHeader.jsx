@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { MoreHorizontal, CheckCircle2, Trash2, Pencil } from "lucide-react";
+import { MoreHorizontal, CheckCircle2, Trash2, Pencil, GripVertical } from "lucide-react";
 import Dropdown from "../../components/ui/Dropdown";
 import Input from "../../components/ui/Input";
 import { useUpdateList, useDeleteList } from "./hooks/useBoardData";
@@ -25,7 +25,7 @@ export default function ListHeader({ list, taskCount, dragHandleProps }) {
     <div className="flex items-center justify-between px-1 mb-3">
       <div
         {...dragHandleProps}
-        className="flex items-center gap-2 min-w-0 cursor-grab active:cursor-grabbing flex-1"
+        className="flex items-center gap-2 min-w-0 cursor-grab active:cursor-grabbing flex-1 group"
       >
         {isEditing ? (
           <Input
@@ -41,7 +41,8 @@ export default function ListHeader({ list, taskCount, dragHandleProps }) {
           <h3 className="text-h3 text-primary truncate">{list.name}</h3>
         )}
         {list.isDoneList && <CheckCircle2 size={13} className="text-status-success shrink-0" />}
-        <span className="text-caption text-tertiary font-mono shrink-0">{taskCount}</span>
+        <span className="text-caption text-tertiary font-mono shrink-0 bg-surface3 rounded-pill px-1.5 py-0.5">{taskCount}</span>
+        <GripVertical size={13} className="text-tertiary opacity-0 group-hover:opacity-60 transition-opacity duration-fast shrink-0 ml-auto" />
       </div>
 
       <Dropdown

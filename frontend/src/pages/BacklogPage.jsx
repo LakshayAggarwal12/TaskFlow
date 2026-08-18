@@ -67,7 +67,7 @@ export default function BacklogPage() {
       <h1 className="text-h1 font-display text-primary mb-5">Backlog</h1>
 
       <div className="flex items-center gap-2 mb-3">
-        <div className="flex-1 flex items-center gap-2 h-10 px-3 rounded-md bg-surface2 border border-hairline focus-within:border-accent transition-colors duration-fast">
+        <div className="flex-1 flex items-center gap-2 h-10 px-3 rounded-md bg-surface2 border border-hairline focus-within:border-accent focus-within:shadow-glow transition-all duration-fast">
           <Sparkles size={14} className="text-tertiary shrink-0" />
           <input
             value={query}
@@ -102,6 +102,13 @@ export default function BacklogPage() {
       )}
 
       <div className="bg-surface1 border border-hairline rounded-lg overflow-hidden">
+        {/* Sticky column header */}
+        <div className="sticky top-0 z-10 bg-surface1 border-b border-hairline grid grid-cols-[1fr_auto_auto_auto] gap-4 px-4 py-2 text-caption text-tertiary">
+          <span>Title</span>
+          <span className="w-16 text-right">Status</span>
+          <span className="w-20 text-right">Due</span>
+          <span className="w-16 text-right">Assignees</span>
+        </div>
         {isLoading && (
           <div className="p-4 flex flex-col gap-2">
             <Skeleton className="h-10" />
