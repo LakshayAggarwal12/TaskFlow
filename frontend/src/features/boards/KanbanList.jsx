@@ -29,13 +29,15 @@ export default function KanbanList({ list, boardId }) {
     <div
       ref={setSortableRef}
       style={style}
-      className={`w-72 shrink-0 flex flex-col bg-surface1 rounded-lg p-2 ${isDragging ? "opacity-60" : ""}`}
+      className={`w-80 shrink-0 flex flex-col bg-surface1/80 backdrop-blur-md border border-hairline/80 rounded-xl p-2.5 shadow-sm transition-all duration-fast ${
+        isDragging ? "opacity-50 scale-95 border-accent/40 shadow-2xl" : ""
+      }`}
     >
       <ListHeader list={list} taskCount={list.tasks.length} dragHandleProps={{ ...attributes, ...listeners }} />
       <div
         ref={setDroppableRef}
-        className={`flex-1 flex flex-col gap-2 p-1.5 rounded-md min-h-[80px] transition-colors duration-fast
-          ${isOver ? "bg-accent-muted ring-1 ring-accent/20" : ""}`}
+        className={`flex-1 flex flex-col gap-2.5 p-1 rounded-lg min-h-[100px] transition-all duration-fast
+          ${isOver ? "bg-accent/10 ring-2 ring-accent/30 rounded-lg shadow-inner" : ""}`}
       >
         <SortableContext items={list.tasks.map((t) => t._id)} strategy={verticalListSortingStrategy}>
           {list.tasks.map((task) => (

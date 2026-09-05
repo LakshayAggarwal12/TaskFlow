@@ -39,7 +39,7 @@ export default function BoardToolbar({ board }) {
   };
 
   return (
-    <div className="flex items-center justify-between gap-3 mb-5">
+    <div className="flex items-center justify-between gap-4 mb-6 pb-4 border-b border-hairline">
       {isEditing ? (
         <Input
           autoFocus
@@ -47,23 +47,38 @@ export default function BoardToolbar({ board }) {
           onChange={(e) => setName(e.target.value)}
           onBlur={saveName}
           onKeyDown={(e) => e.key === "Enter" && saveName()}
-          className="h-9 max-w-xs"
+          className="h-10 max-w-sm font-display text-xl font-bold"
         />
       ) : (
-        <h1 className="text-h1 font-display text-primary truncate tracking-tight">{board.name}</h1>
+        <div className="flex items-center gap-3">
+          <h1 className="text-2xl sm:text-3xl font-display font-bold text-white tracking-tight flex items-center gap-2.5">
+            {board.name}
+          </h1>
+          <button
+            onClick={() => setIsEditing(true)}
+            title="Rename board"
+            className="text-slate-400 hover:text-white p-1 rounded-md hover:bg-surface2 transition-colors"
+          >
+            <Pencil size={14} />
+          </button>
+        </div>
       )}
 
-      <div className="flex items-center gap-2 shrink-0">
+      <div className="flex items-center gap-2.5 shrink-0">
         <Link
           to={`/w/${workspaceId}/p/${projectId}/backlog`}
-          className="flex items-center gap-1.5 px-2.5 sm:px-3 h-9 rounded-md border border-hairline text-body-sm text-secondary hover:text-primary hover:bg-surface2 transition-colors duration-fast"
+          className="flex items-center gap-2 px-3.5 h-9 rounded-lg border border-hairline/80 bg-surface2/60 hover:bg-surface2 text-body-sm font-medium text-slate-300 hover:text-white transition-all shadow-xs"
         >
-          <ListTodo size={14} /> <span className="hidden sm:inline">Backlog</span>
+          <ListTodo size={15} className="text-accent" /> <span className="hidden sm:inline">Backlog</span>
         </Link>
         <Dropdown
           align="right"
           trigger={({ toggle }) => (
-            <button onClick={toggle} className="text-tertiary hover:text-primary transition-colors duration-fast p-2">
+            <button
+              onClick={toggle}
+              aria-label="More options"
+              className="w-9 h-9 rounded-lg flex items-center justify-center border border-hairline/80 bg-surface2/60 text-slate-400 hover:text-white hover:bg-surface2 transition-colors"
+            >
               <MoreHorizontal size={16} />
             </button>
           )}

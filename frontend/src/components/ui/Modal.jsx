@@ -10,31 +10,31 @@ export default function Modal({ isOpen, onClose, title, children, className = ""
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.16 }}
-            className="absolute inset-0 bg-black/60"
+            transition={{ duration: 0.2 }}
+            className="absolute inset-0 bg-black/75 backdrop-blur-sm"
             onClick={onClose}
           />
           <motion.div
-            initial={{ opacity: 0, scale: 0.96, y: 8 }}
+            initial={{ opacity: 0, scale: 0.95, y: 12 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.96, y: 8 }}
-            transition={{ duration: 0.22, ease: [0, 0, 0.2, 1] }}
-            className={`relative bg-surface2 border border-hairline rounded-lg shadow-modal w-full max-w-md ${className}`}
+            exit={{ opacity: 0, scale: 0.95, y: 12 }}
+            transition={{ duration: 0.24, ease: [0.16, 1, 0.3, 1] }}
+            className={`relative bg-surface1/95 backdrop-blur-xl border border-hairlineBright rounded-2xl shadow-modal w-full max-w-md overflow-hidden ${className}`}
             role="dialog"
             aria-modal="true"
             aria-label={title}
           >
-            <div className="flex items-center justify-between px-5 py-4 border-b border-hairline">
-              <h2 className="text-h3 text-primary">{title}</h2>
+            <div className="flex items-center justify-between px-6 py-4 border-b border-hairline bg-surface2/30">
+              <h2 className="text-h3 font-semibold text-primary">{title}</h2>
               <button
                 onClick={onClose}
                 aria-label="Close dialog"
-                className="text-tertiary hover:text-primary transition-colors duration-fast"
+                className="w-8 h-8 rounded-lg flex items-center justify-center text-tertiary hover:text-primary hover:bg-surface3/60 transition-colors duration-fast"
               >
-                <X size={18} />
+                <X size={17} />
               </button>
             </div>
-            <div className="p-5">{children}</div>
+            <div className="p-6">{children}</div>
           </motion.div>
         </div>
       )}

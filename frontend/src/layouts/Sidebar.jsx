@@ -23,86 +23,95 @@ function SidebarContent({ onNavigate }) {
   const primaryBoardId = boards?.[0]?._id;
 
   const navLinkClass = ({ isActive }) =>
-    `flex items-center gap-2.5 px-3 h-10 md:h-9 rounded-md text-body transition-colors duration-fast border-l-2 ${
+    `flex items-center gap-2.5 px-3 h-9 rounded-lg text-body-sm font-medium transition-all duration-fast ${
       isActive
-        ? "bg-accent-muted text-accent border-accent"
-        : "text-secondary hover:text-primary hover:bg-surface2 border-transparent"
+        ? "bg-accent/10 text-accent font-semibold shadow-xs"
+        : "text-slate-400 hover:text-slate-200 hover:bg-surface2/60"
     }`;
 
   const disabledClass =
-    "flex items-center gap-2.5 px-3 h-10 md:h-9 rounded-md text-body text-tertiary cursor-not-allowed opacity-60 border-l-2 border-transparent";
+    "flex items-center gap-2.5 px-3 h-9 rounded-lg text-body-sm text-slate-600 cursor-not-allowed opacity-50";
 
   return (
     <>
-      <div className="flex items-center gap-2 px-1 mb-5">
-        <span className="w-6 h-6 rounded-sm bg-gradient-to-br from-accent to-accent-hover flex items-center justify-center text-canvas text-caption font-bold">
+      <div className="flex items-center gap-2.5 px-1.5 mb-6">
+        <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-accent to-indigo-500 flex items-center justify-center text-slate-950 text-caption font-bold shadow-md shadow-accent/20">
           T
-        </span>
-        <span className="text-h3 text-primary font-display">TaskFlow</span>
+        </div>
+        <div>
+          <span className="text-h3 font-bold tracking-tight text-white font-display">TaskFlow</span>
+          <span className="block text-[10px] uppercase font-mono tracking-widest text-accent font-semibold -mt-1">Workspace</span>
+        </div>
       </div>
 
-      <WorkspaceSwitcher />
+      <div className="mb-4">
+        <WorkspaceSwitcher />
+      </div>
 
-      <nav className="flex flex-col gap-0.5 mt-5">
+      <nav className="flex flex-col gap-1 flex-1 overflow-y-auto scrollbar-thin pr-1">
         <NavLink to={`/w/${workspaceId}`} end className={navLinkClass} onClick={onNavigate}>
-          <LayoutDashboard size={16} />
-          Dashboard
+          <LayoutDashboard size={16} className="shrink-0 opacity-80" />
+          <span>Dashboard</span>
         </NavLink>
 
         {projectId && (
           <>
-            <div className="mt-4 mb-1 px-3 text-caption text-tertiary uppercase tracking-widest">Project</div>
+            <div className="mt-5 mb-1 px-3 text-[11px] font-semibold text-slate-500 uppercase tracking-wider font-mono">
+              Project Navigation
+            </div>
             {primaryBoardId ? (
               <NavLink to={`/w/${workspaceId}/p/${projectId}/board/${primaryBoardId}`} className={navLinkClass} onClick={onNavigate}>
-                <KanbanSquare size={16} />
-                Board
+                <KanbanSquare size={16} className="shrink-0 opacity-80" />
+                <span>Active Board</span>
               </NavLink>
             ) : (
               <div title="Create a board first" className={disabledClass}>
-                <KanbanSquare size={16} />
-                Board
+                <KanbanSquare size={16} className="shrink-0" />
+                <span>Active Board</span>
               </div>
             )}
             <NavLink to={`/w/${workspaceId}/p/${projectId}/backlog`} className={navLinkClass} onClick={onNavigate}>
-              <ListTodo size={16} />
-              Backlog
+              <ListTodo size={16} className="shrink-0 opacity-80" />
+              <span>Backlog</span>
             </NavLink>
             <NavLink to={`/w/${workspaceId}/p/${projectId}/sprints`} className={navLinkClass} onClick={onNavigate}>
-              <Zap size={16} />
-              Sprints
+              <Zap size={16} className="shrink-0 opacity-80" />
+              <span>Sprints</span>
             </NavLink>
             <NavLink to={`/w/${workspaceId}/p/${projectId}/analytics`} className={navLinkClass} onClick={onNavigate}>
-              <BarChart3 size={16} />
-              Analytics
+              <BarChart3 size={16} className="shrink-0 opacity-80" />
+              <span>Analytics</span>
             </NavLink>
             <NavLink to={`/w/${workspaceId}/p/${projectId}/activity`} className={navLinkClass} onClick={onNavigate}>
-              <Activity size={16} />
-              Activity
+              <Activity size={16} className="shrink-0 opacity-80" />
+              <span>Activity</span>
             </NavLink>
           </>
         )}
       </nav>
 
-      <div className="mt-auto flex flex-col gap-0.5 pt-3 border-t border-hairline">
+      <div className="mt-auto flex flex-col gap-1 pt-3 border-t border-hairline">
         {projectId && (
           <NavLink to={`/w/${workspaceId}/p/${projectId}/settings`} className={navLinkClass} onClick={onNavigate}>
-            <Settings size={16} />
-            Project settings
+            <Settings size={15} className="shrink-0 opacity-80" />
+            <span>Project Settings</span>
           </NavLink>
         )}
         <NavLink to={`/w/${workspaceId}/settings`} className={navLinkClass} onClick={onNavigate}>
-          <Settings size={16} />
-          Workspace settings
+          <Settings size={15} className="shrink-0 opacity-80" />
+          <span>Workspace Settings</span>
         </NavLink>
-        <div className="flex items-center gap-2.5 px-3 py-2.5 mt-1 rounded-md bg-surface2">
+        <div className="flex items-center gap-2.5 px-3 py-2 mt-2 rounded-xl bg-surface2/80 border border-hairline/60">
           <Avatar name={user?.name} size="sm" />
           <div className="flex-1 min-w-0">
-            <p className="text-body-sm text-primary truncate">{user?.name}</p>
+            <p className="text-body-sm font-medium text-slate-200 truncate">{user?.name}</p>
+            <p className="text-[11px] text-slate-400 truncate">{user?.email}</p>
           </div>
           <button
             onClick={logout}
             aria-label="Log out"
-            className="text-tertiary hover:text-status-danger transition-colors duration-fast"
+            title="Log out"
+            className="p-1.5 rounded-md text-slate-400 hover:text-status-danger hover:bg-status-danger/10 transition-colors duration-fast"
           >
             <LogOut size={15} />
           </button>
@@ -116,7 +125,7 @@ export default function Sidebar({ isOpen, onClose }) {
   return (
     <>
       {/* Desktop: always visible, static, takes up real layout space */}
-      <aside className="hidden md:flex w-64 shrink-0 h-screen sticky top-0 flex-col bg-surface1 border-r border-hairline px-3 py-4">
+      <aside className="hidden md:flex w-64 shrink-0 h-screen sticky top-0 flex-col bg-surface1/90 backdrop-blur-xl border-r border-hairline px-3.5 py-4 z-20">
         <SidebarContent />
       </aside>
 
@@ -129,7 +138,7 @@ export default function Sidebar({ isOpen, onClose }) {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
-              className="fixed inset-0 z-40 bg-black/60"
+              className="fixed inset-0 z-40 bg-black/75 backdrop-blur-xs"
               onClick={onClose}
             />
             <motion.aside
@@ -137,12 +146,12 @@ export default function Sidebar({ isOpen, onClose }) {
               animate={{ x: 0 }}
               exit={{ x: "-100%" }}
               transition={{ duration: 0.28, ease: [0, 0, 0.2, 1] }}
-              className="fixed inset-y-0 left-0 z-50 w-72 max-w-[85vw] flex flex-col bg-surface1 border-r border-hairline px-3 py-4"
+              className="fixed inset-y-0 left-0 z-50 w-72 max-w-[85vw] flex flex-col bg-surface1/95 backdrop-blur-xl border-r border-hairline px-3.5 py-4 shadow-2xl"
             >
               <button
                 onClick={onClose}
                 aria-label="Close menu"
-                className="absolute top-4 right-3 text-tertiary hover:text-primary transition-colors duration-fast"
+                className="absolute top-4 right-3 w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-white hover:bg-surface2 transition-colors duration-fast"
               >
                 <X size={18} />
               </button>

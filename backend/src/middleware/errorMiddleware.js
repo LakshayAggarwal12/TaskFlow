@@ -1,3 +1,5 @@
+const logger = require("../config/logger");
+
 // Catches requests to routes that don't exist
 const notFound = (req, res, next) => {
   const error = new Error(`Route not found - ${req.originalUrl}`);
@@ -10,6 +12,12 @@ const notFound = (req, res, next) => {
 const errorHandler = (err, req, res, next) => {
   let statusCode = res.statusCode === 200 ? 500 : res.statusCode;
   let message = err.message;
+
+  if (statusCode >= 500) {
+    logger.error(message, { stack: err.stack, path: req.originalUrl, method: req.method });
+  } else {
+    logger.warn(message, { path: req.originalUrl, method: req.method, statusCode });
+  }
 
   // Mongoose bad ObjectId
   if (err.name === "CastError" && err.kind === "ObjectId") {

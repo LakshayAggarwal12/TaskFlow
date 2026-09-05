@@ -21,7 +21,7 @@ export default function Dropdown({ trigger, items, align = "right" }) {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -4, scale: 0.98 }}
               transition={{ duration: 0.16 }}
-              className={`absolute z-40 mt-1.5 min-w-[160px] bg-surface2 border border-hairline rounded-md shadow-modal py-1 ${
+              className={`absolute z-40 mt-1.5 min-w-[180px] bg-surface2/95 backdrop-blur-md border border-hairlineBright rounded-xl shadow-modal py-1.5 overflow-hidden ${
                 align === "right" ? "right-0" : "left-0"
               }`}
             >
@@ -32,11 +32,11 @@ export default function Dropdown({ trigger, items, align = "right" }) {
                     close();
                     item.onClick();
                   }}
-                  className={`w-full flex items-center gap-2.5 px-3 py-2 text-body-sm text-left transition-colors duration-fast
-                    ${item.danger ? "text-status-danger hover:bg-status-danger/10" : "text-primary hover:bg-surface3"}`}
+                  className={`w-full flex items-center gap-2.5 px-3.5 py-2 text-body-sm text-left transition-colors duration-fast
+                    ${item.danger ? "text-status-danger hover:bg-status-danger/15 font-medium" : "text-slate-200 hover:text-white hover:bg-surface3/80"}`}
                 >
-                  {item.icon && <item.icon size={14} />}
-                  {item.label}
+                  {item.icon && <item.icon size={15} className="shrink-0 opacity-70" />}
+                  <span className="truncate">{item.label}</span>
                 </button>
               ))}
             </motion.div>
