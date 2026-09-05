@@ -8,6 +8,7 @@ import TaskMetaPanel from "./TaskMetaPanel";
 import SubtaskChecklist from "./SubtaskChecklist";
 import AIAssistPanel from "../ai/AIAssistPanel";
 import CommentThread from "../comments/CommentThread";
+import AttachmentSection from "../attachments/AttachmentSection";
 import Skeleton from "../../components/ui/Skeleton";
 import PriorityDot from "./PriorityDot";
 import { useToast } from "../../context/ToastContext";
@@ -67,15 +68,15 @@ export default function TaskDrawer() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.22 }}
-            className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm"
+            className="fixed inset-0 z-40 bg-black/75 backdrop-blur-md"
             onClick={close}
           />
           <motion.div
-            initial={{ opacity: 0, x: 40 }}
+            initial={{ opacity: 0, x: 60 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: 60 }}
-            transition={{ duration: 0.36, ease: [0, 0, 0.2, 1] }}
-            className="fixed top-0 right-0 z-50 h-screen w-full max-w-2xl bg-surface1 border-l border-hairline shadow-modal overflow-y-auto scrollbar-thin"
+            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            className="fixed top-0 right-0 z-50 h-screen w-full max-w-2xl bg-surface1/95 backdrop-blur-2xl border-l border-hairlineBright shadow-2xl overflow-y-auto scrollbar-thin"
           >
             {isLoading || !task ? (
               <div className="p-6 flex flex-col gap-3">
@@ -85,16 +86,26 @@ export default function TaskDrawer() {
               </div>
             ) : (
               <div className="flex flex-col">
-                <div className="flex items-center justify-between px-6 pt-5 pb-3 bg-gradient-to-b from-surface2 to-transparent">
-                  <div className="flex items-center gap-2">
+                <div className="sticky top-0 z-10 flex items-center justify-between px-7 py-4.5 bg-surface1/90 backdrop-blur-md border-b border-hairline/80">
+                  <div className="flex items-center gap-2.5">
                     <PriorityDot priority={task.priority} />
-                    <span className="text-caption text-tertiary">Task</span>
+                    <span className="text-caption font-mono uppercase tracking-wider text-slate-400 font-medium">Task Inspector</span>
                   </div>
-                  <div className="flex items-center gap-3">
-                    <button onClick={handleDelete} aria-label="Delete task" className="text-tertiary hover:text-status-danger transition-colors duration-fast">
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={handleDelete}
+                      aria-label="Delete task"
+                      title="Delete task"
+                      className="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-status-danger hover:bg-status-danger/15 transition-colors duration-fast"
+                    >
                       <Trash2 size={16} />
                     </button>
-                    <button onClick={close} aria-label="Close" className="text-tertiary hover:text-primary transition-colors duration-fast">
+                    <button
+                      onClick={close}
+                      aria-label="Close"
+                      title="Close drawer"
+                      className="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-white hover:bg-surface2 transition-colors duration-fast"
+                    >
                       <X size={18} />
                     </button>
                   </div>
@@ -110,14 +121,14 @@ export default function TaskDrawer() {
                   />
 
                   <div>
-                    <span className="text-caption text-tertiary block mb-1.5">Description</span>
+                    <span className="text-caption font-mono uppercase tracking-wider text-slate-400 font-semibold block mb-2">Description</span>
                     <textarea
                       value={descDraft}
                       onChange={(e) => setDescDraft(e.target.value)}
                       onBlur={() => descDraft !== (task.description || "") && handleUpdate({ description: descDraft })}
                       rows={4}
                       placeholder="Add a description..."
-                      className="w-full text-body text-primary bg-surface2 border border-hairline rounded-md p-3 resize-none focus:outline-none focus:border-accent placeholder:text-tertiary transition-colors duration-fast"
+                      className="w-full text-body text-slate-100 bg-surface2/80 border border-hairline rounded-xl p-3.5 resize-none focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/20 placeholder:text-slate-500 transition-all duration-fast leading-relaxed"
                     />
                     <div className="mt-2">
                       <AIAssistPanel
@@ -142,6 +153,10 @@ export default function TaskDrawer() {
                   <div className="border-t border-hairline" />
 
                   <SubtaskChecklist task={task} boardId={boardId} />
+
+                  <div className="border-t border-hairline pt-5">
+                    <AttachmentSection taskId={task._id} />
+                  </div>
 
                   <div className="border-t border-hairline pt-5">
                     <CommentThread taskId={task._id} />

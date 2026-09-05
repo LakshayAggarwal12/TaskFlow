@@ -10,6 +10,7 @@ const {
 const { protect } = require("../middleware/authMiddleware");
 const { requireTaskAccess, requireTaskRole } = require("../middleware/taskMiddleware");
 const taskCommentRoutes = require("./taskCommentRoutes");
+const taskAttachmentRoutes = require("./taskAttachmentRoutes");
 
 const router = express.Router();
 router.use(protect);
@@ -34,5 +35,11 @@ router.use("/:id/comments", (req, res, next) => {
   req.params.taskId = req.params.id; // let mergeParams-based nested router see it as taskId
   next();
 }, taskCommentRoutes);
+
+// Nested: /api/tasks/:taskId/attachments
+router.use("/:id/attachments", (req, res, next) => {
+  req.params.taskId = req.params.id;
+  next();
+}, taskAttachmentRoutes);
 
 module.exports = router;
