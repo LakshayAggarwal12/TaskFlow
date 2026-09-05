@@ -29,7 +29,6 @@
 
 - [Problem Statement](#-problem-statement)
 - [Features](#-features)
-- [Screenshots](#-screenshots)
 - [Demo](#-demo)
 - [Tech Stack](#-tech-stack)
 - [Folder Structure](#-folder-structure)
@@ -120,26 +119,6 @@ TaskFlow's architecture is built specifically around answering those three quest
 
 </td></tr>
 </table>
-
----
-
-## 🖼️ Screenshots
-
-<div align="center">
-
-| Dashboard | Kanban Board |
-|:---:|:---:|
-| <img width="100%" src="docs/images/dashboard.png"/> | <img width="100%" src="docs/images/board.png"/> |
-
-| Task Drawer + AI Assist | Sprint Burndown |
-|:---:|:---:|
-| <img width="100%" src="docs/images/task-drawer.png"/> | <img width="100%" src="docs/images/sprint-burndown.png"/> |
-
-| Analytics | Activity |
-|:---:|:---:|
-| <img width="100%" src="docs/images/analytics.png"/> | <img width="100%" src="docs/images/activity.png"/> |
-
-</div>
 
 ---
 
