@@ -8,6 +8,7 @@ import TaskMetaPanel from "./TaskMetaPanel";
 import SubtaskChecklist from "./SubtaskChecklist";
 import AIAssistPanel from "../ai/AIAssistPanel";
 import CommentThread from "../comments/CommentThread";
+import AttachmentSection from "../attachments/AttachmentSection";
 import Skeleton from "../../components/ui/Skeleton";
 import PriorityDot from "./PriorityDot";
 import { useToast } from "../../context/ToastContext";
@@ -142,6 +143,10 @@ export default function TaskDrawer() {
                   <div className="border-t border-hairline" />
 
                   <SubtaskChecklist task={task} boardId={boardId} />
+
+                  <div className="border-t border-hairline pt-5">
+                    <AttachmentSection taskId={task._id} />
+                  </div>
 
                   <div className="border-t border-hairline pt-5">
                     <CommentThread taskId={task._id} />
