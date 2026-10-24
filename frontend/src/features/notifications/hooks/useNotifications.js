@@ -5,7 +5,11 @@ export function useNotifications(params = {}) {
   return useQuery({
     queryKey: ["notifications", params],
     queryFn: () => notificationsApi.list(params),
-    refetchInterval: 60 * 1000, // poll every 60s — simplest correct approach given no WebSocket layer
+    // Live delivery now handles the common case (see SocketContext's
+    // "notification:new" listener) — this poll is just a fallback for
+    // missed events (reconnect gaps, tab was fully backgrounded, etc.),
+    // so it no longer needs to run every 60s.
+    refetchInterval: 5 * 60 * 1000,
   });
 }
 

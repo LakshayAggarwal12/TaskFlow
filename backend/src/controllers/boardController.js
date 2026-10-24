@@ -1,6 +1,8 @@
 const Board = require("../models/Board");
 const List = require("../models/List");
 const Task = require("../models/Task");
+const Attachment = require("../models/Attachment");
+const TaskSubmission = require("../models/TaskSubmission");
 const asyncHandler = require("../utils/asyncHandler");
 const logActivity = require("../utils/logActivity");
 
@@ -57,7 +59,10 @@ const getBoard = asyncHandler(async (req, res) => {
 
   const listsWithTasks = lists.map((l) => ({ ...l, tasks: tasksByList[l._id.toString()] }));
 
-  res.status(200).json({ success: true, board: req.board, lists: listsWithTasks });
+  // UX convenience only, mirroring lib/permissions.js's warning on the
+  // frontend — the backend re-checks every permission on every request
+  // regardless of what this lets the UI show or hide.
+  res.status(200).json({ success: true, board: req.board, lists: listsWithTasks, myRole: req.effectiveRole });
 });
 
 // @route   PATCH /api/boards/:id
@@ -74,6 +79,13 @@ const updateBoard = asyncHandler(async (req, res) => {
 const deleteBoard = asyncHandler(async (req, res) => {
   const lists = await List.find({ board: req.board._id }).select("_id");
   const listIds = lists.map((l) => l._id);
+
+  const tasks = await Task.find({ list: { $in: listIds } }).select("_id");
+  const taskIds = tasks.map((t) => t._id);
+
+  // Cascade: clean up submissions and attachments before removing tasks
+  await TaskSubmission.deleteMany({ task: { $in: taskIds } });
+  await Attachment.deleteMany({ ownerType: "task", ownerId: { $in: taskIds } });
 
   await Task.deleteMany({ list: { $in: listIds } });
   await List.deleteMany({ board: req.board._id });

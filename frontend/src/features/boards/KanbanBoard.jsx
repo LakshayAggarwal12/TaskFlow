@@ -11,6 +11,7 @@ import { Plus } from "lucide-react";
 import KanbanList from "./KanbanList";
 import { useCreateList, useReorderList, useMoveTask } from "./hooks/useBoardData";
 import { useDragStore } from "../../store/boardStore";
+import { useToast } from "../../context/ToastContext";
 
 function NewListInline({ boardId }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -56,6 +57,7 @@ export default function KanbanBoard({ board, lists }) {
   const moveTask = useMoveTask(board._id);
   const setActiveDrag = useDragStore((s) => s.setActiveDrag);
   const clearActiveDrag = useDragStore((s) => s.clearActiveDrag);
+  const toast = useToast();
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 4 } })
@@ -108,14 +110,23 @@ export default function KanbanBoard({ board, lists }) {
         const siblings = targetList.tasks.filter((t) => t._id !== activeTask._id).sort((a, b) => a.order - b.order);
         const lastTask = siblings[siblings.length - 1];
 
-        moveTask.mutate({
-          taskId: activeTask._id,
-          targetListId,
-          beforeTaskId: lastTask?._id ?? null,
-          afterTaskId: null,
-          beforeOrder: lastTask?.order ?? null,
-          afterOrder: null,
-        });
+        moveTask.mutate(
+          {
+            taskId: activeTask._id,
+            targetListId,
+            beforeTaskId: lastTask?._id ?? null,
+            afterTaskId: null,
+            beforeOrder: lastTask?.order ?? null,
+            afterOrder: null,
+          },
+          {
+            onError: (err) => {
+              if (err.response?.status === 409) {
+                toast.error(err.response.data?.message || "This task must be reviewed before it can be marked done.");
+              }
+            },
+          }
+        );
         return;
       }
 
@@ -128,14 +139,23 @@ export default function KanbanBoard({ board, lists }) {
         const overIndex = siblings.findIndex((t) => t._id === overTask._id);
         const beforeTask = overIndex > 0 ? siblings[overIndex - 1] : null;
 
-        moveTask.mutate({
-          taskId: activeTask._id,
-          targetListId,
-          beforeTaskId: beforeTask?._id ?? null,
-          afterTaskId: overTask._id,
-          beforeOrder: beforeTask?.order ?? null,
-          afterOrder: overTask.order,
-        });
+        moveTask.mutate(
+          {
+            taskId: activeTask._id,
+            targetListId,
+            beforeTaskId: beforeTask?._id ?? null,
+            afterTaskId: overTask._id,
+            beforeOrder: beforeTask?.order ?? null,
+            afterOrder: overTask.order,
+          },
+          {
+            onError: (err) => {
+              if (err.response?.status === 409) {
+                toast.error(err.response.data?.message || "This task must be reviewed before it can be marked done.");
+              }
+            },
+          }
+        );
       }
     }
   };

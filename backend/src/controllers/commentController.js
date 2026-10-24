@@ -3,6 +3,7 @@ const Task = require("../models/Task");
 const asyncHandler = require("../utils/asyncHandler");
 const logActivity = require("../utils/logActivity");
 const { notifyMany } = require("../utils/createNotification");
+const { emitToBoard } = require("../socket/emit");
 
 // @route   POST /api/tasks/:taskId/comments
 // @access  Private (effective role >= member) — req.task/req.project set by requireTaskAccess
@@ -19,6 +20,8 @@ const addComment = asyncHandler(async (req, res) => {
   });
 
   await comment.populate("author", "name email avatarUrl");
+
+  emitToBoard(req.board._id, "comment:added", { comment, taskId: req.task._id.toString() });
 
   logActivity({
     project: req.project._id,
@@ -68,13 +71,18 @@ const updateComment = asyncHandler(async (req, res) => {
   req.comment.edited = true;
   await req.comment.save();
 
+  emitToBoard(req.board._id, "comment:updated", { comment: req.comment, taskId: req.task._id.toString() });
+
   res.status(200).json({ success: true, comment: req.comment });
 });
 
 // @route   DELETE /api/comments/:id
 // @access  Private (author or admin+)
 const deleteComment = asyncHandler(async (req, res) => {
+  const commentId = req.comment._id.toString();
+  const taskId = req.task._id.toString();
   await req.comment.deleteOne();
+  emitToBoard(req.board._id, "comment:deleted", { commentId, taskId });
   res.status(200).json({ success: true, message: "Comment deleted" });
 });
 

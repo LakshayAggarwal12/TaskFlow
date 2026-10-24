@@ -9,7 +9,16 @@ const notificationSchema = new mongoose.Schema(
     },
     type: {
       type: String,
-      enum: ["task_assigned", "comment_added", "due_soon", "overdue", "sprint_closed"],
+      enum: [
+        "task_assigned",
+        "comment_added",
+        "due_soon",
+        "overdue",
+        "sprint_closed",
+        "submission_created",
+        "submission_approved",
+        "submission_changes_requested",
+      ],
       required: true,
     },
     message: {

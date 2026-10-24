@@ -1,4 +1,11 @@
 const Workspace = require("../models/Workspace");
+const Project = require("../models/Project");
+const Board = require("../models/Board");
+const List = require("../models/List");
+const Task = require("../models/Task");
+const Attachment = require("../models/Attachment");
+const TaskSubmission = require("../models/TaskSubmission");
+const Activity = require("../models/Activity");
 const User = require("../models/User");
 const asyncHandler = require("../utils/asyncHandler");
 
@@ -64,11 +71,29 @@ const deleteWorkspace = asyncHandler(async (req, res) => {
     return res.status(403).json({ message: "Only the workspace owner can delete it" });
   }
 
+  // Full cascade: workspace → projects → boards → lists → tasks → attachments/submissions/activity
+  const projects = await Project.find({ workspace: req.workspace._id }).select("_id");
+  const projectIds = projects.map((p) => p._id);
+
+  const boards = await Board.find({ project: { $in: projectIds } }).select("_id");
+  const boardIds = boards.map((b) => b._id);
+
+  const lists = await List.find({ board: { $in: boardIds } }).select("_id");
+  const listIds = lists.map((l) => l._id);
+
+  const tasks = await Task.find({ list: { $in: listIds } }).select("_id");
+  const taskIds = tasks.map((t) => t._id);
+
+  await TaskSubmission.deleteMany({ task: { $in: taskIds } });
+  await Attachment.deleteMany({ ownerType: "task", ownerId: { $in: taskIds } });
+  await Activity.deleteMany({ project: { $in: projectIds } });
+  await Task.deleteMany({ list: { $in: listIds } });
+  await List.deleteMany({ board: { $in: boardIds } });
+  await Board.deleteMany({ project: { $in: projectIds } });
+  await Project.deleteMany({ workspace: req.workspace._id });
   await req.workspace.deleteOne();
 
-  res.status(200).json({ success: true, message: "Workspace deleted" });
-  // Note: once Project/Board/Task models exist, cascade-delete their
-  // documents referencing this workspaceId here as well.
+  res.status(200).json({ success: true, message: "Workspace and all its contents deleted" });
 });
 
 // @route   POST /api/workspaces/:id/members
@@ -78,6 +103,10 @@ const addMember = asyncHandler(async (req, res) => {
 
   if (!email) {
     return res.status(400).json({ message: "Email is required to add a member" });
+  }
+
+  if (!["admin", "member", "viewer"].includes(role)) {
+    return res.status(400).json({ message: "Role must be one of: admin, member, viewer" });
   }
 
   const userToAdd = await User.findOne({ email: email.toLowerCase() });

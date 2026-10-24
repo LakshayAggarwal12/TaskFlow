@@ -2,12 +2,13 @@ import { motion } from "framer-motion";
 import { useAuth } from "../context/AuthContext";
 import Avatar from "../components/ui/Avatar";
 import Badge from "../components/ui/Badge";
+import NotificationPreferences from "../features/notifications/NotificationPreferences";
 
 export default function AccountPage() {
   const { user } = useAuth();
 
   return (
-    <div className="max-w-lg mx-auto">
+    <div className="max-w-xl mx-auto">
       <motion.div
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
@@ -29,6 +30,10 @@ export default function AccountPage() {
           currently expose an update-profile endpoint. This section will become editable
           once that's added.
         </p>
+
+        <div className="mt-8">
+          <NotificationPreferences />
+        </div>
       </motion.div>
     </div>
   );

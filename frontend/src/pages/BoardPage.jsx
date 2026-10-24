@@ -1,5 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useBoardData } from "../features/boards/hooks/useBoardData";
+import { useBoardSocket } from "../features/boards/hooks/useBoardSocket";
 import BoardToolbar from "../features/boards/BoardToolbar";
 import KanbanBoard from "../features/boards/KanbanBoard";
 import TaskDrawer from "../features/tasks/TaskDrawer";
@@ -8,6 +9,7 @@ import Skeleton from "../components/ui/Skeleton";
 export default function BoardPage() {
   const { boardId } = useParams();
   const { data, isLoading, isError } = useBoardData(boardId);
+  useBoardSocket(boardId);
 
   if (isLoading) {
     return (
@@ -30,7 +32,7 @@ export default function BoardPage() {
     <div>
       <BoardToolbar board={data.board} />
       <KanbanBoard board={data.board} lists={data.lists} />
-      <TaskDrawer />
+      <TaskDrawer myRole={data.myRole} />
     </div>
   );
 }

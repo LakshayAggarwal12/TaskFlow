@@ -4,6 +4,7 @@ import Dropdown from "../../components/ui/Dropdown";
 import Input from "../../components/ui/Input";
 import { useUpdateList, useDeleteList } from "./hooks/useBoardData";
 import { useParams } from "react-router-dom";
+import { useToast } from "../../context/ToastContext";
 
 export default function ListHeader({ list, taskCount, dragHandleProps }) {
   const { boardId } = useParams();
@@ -11,6 +12,7 @@ export default function ListHeader({ list, taskCount, dragHandleProps }) {
   const [name, setName] = useState(list.name);
   const updateList = useUpdateList(boardId);
   const deleteList = useDeleteList(boardId);
+  const toast = useToast();
 
   const saveName = () => {
     setIsEditing(false);
@@ -63,7 +65,11 @@ export default function ListHeader({ list, taskCount, dragHandleProps }) {
           {
             label: list.isDoneList ? "Unmark as Done list" : "Mark as Done list",
             icon: CheckCircle2,
-            onClick: () => updateList.mutate({ id: list._id, data: { isDoneList: !list.isDoneList } }),
+            onClick: () =>
+              updateList.mutate(
+                { id: list._id, data: { isDoneList: !list.isDoneList } },
+                { onError: (err) => toast.error(err.response?.data?.message || "Couldn't update this list.") }
+              ),
           },
           {
             label: "Delete list",

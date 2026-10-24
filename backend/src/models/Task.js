@@ -87,6 +87,15 @@ const taskSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    // Gates entry into a "Done" list (see List.isDoneList). A task can only
+    // move into a Done list once its latest submission is "approved" — see
+    // utils/submissionGate.js for the actual rule. Reopening a task (moving
+    // it back out of Done) resets this to "none".
+    reviewStatus: {
+      type: String,
+      enum: ["none", "pending_review", "approved", "changes_requested"],
+      default: "none",
+    },
   },
   { timestamps: true }
 );
