@@ -11,8 +11,10 @@ const listRoutes = require("./routes/listRoutes");
 const taskRoutes = require("./routes/taskRoutes");
 const commentRoutes = require("./routes/commentRoutes");
 const attachmentRoutes = require("./routes/attachmentRoutes");
+const submissionRoutes = require("./routes/submissionRoutes");
 const sprintRoutes = require("./routes/sprintRoutes");
 const notificationRoutes = require("./routes/notificationRoutes");
+const userRoutes = require("./routes/userRoutes");
 const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 const { initSentry, Sentry } = require("./config/sentry");
 const logger = require("./config/logger");
@@ -58,8 +60,10 @@ app.use("/api/lists", listRoutes);
 app.use("/api/tasks", taskRoutes);
 app.use("/api/comments", commentRoutes);
 app.use("/api/attachments", attachmentRoutes);
+app.use("/api/submissions", submissionRoutes);
 app.use("/api/sprints", sprintRoutes);
 app.use("/api/notifications", notificationRoutes);
+app.use("/api/users", userRoutes);
 
 // ---- Error Handling (must be last) ----
 if (sentryEnabled) {

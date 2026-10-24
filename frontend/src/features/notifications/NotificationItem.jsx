@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { UserPlus, MessageSquare, Clock, AlertTriangle, FlagOff } from "lucide-react";
+import { UserPlus, MessageSquare, Clock, AlertTriangle, FlagOff, Send, CheckCircle2, XCircle } from "lucide-react";
 import SignalDot from "../../components/ui/SignalDot";
 
 const ICONS = {
@@ -8,6 +8,9 @@ const ICONS = {
   due_soon: Clock,
   overdue: AlertTriangle,
   sprint_closed: FlagOff,
+  submission_created: Send,
+  submission_approved: CheckCircle2,
+  submission_changes_requested: XCircle,
 };
 
 function timeAgo(dateStr) {

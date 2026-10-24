@@ -16,12 +16,18 @@ const requireCommentAccess = async (req, res, next) => {
     }
 
     const task = await Task.findById(comment.task);
+    if (!task) return res.status(404).json({ message: "Task not found" });
+
     const list = await List.findById(task.list);
+    if (!list) return res.status(404).json({ message: "List not found" });
+
     const board = await Board.findById(list.board);
+    if (!board) return res.status(404).json({ message: "Board not found" });
     const { project, workspace, effectiveRole } = await resolveProjectRole(board.project, req.user._id);
 
     req.comment = comment;
     req.task = task;
+    req.board = board;
     req.project = project;
     req.workspace = workspace;
     req.effectiveRole = effectiveRole;

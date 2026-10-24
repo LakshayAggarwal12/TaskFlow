@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
-import { X, Trash2 } from "lucide-react";
+import { X, Trash2, Send } from "lucide-react";
 import { useTask, useUpdateTask, useDeleteTaskDetail } from "./hooks/useTask";
 import { useWorkspace } from "../workspaces/hooks/useWorkspaces";
 import TaskMetaPanel from "./TaskMetaPanel";
@@ -9,11 +9,21 @@ import SubtaskChecklist from "./SubtaskChecklist";
 import AIAssistPanel from "../ai/AIAssistPanel";
 import CommentThread from "../comments/CommentThread";
 import AttachmentSection from "../attachments/AttachmentSection";
+import SubmissionModal from "../submissions/SubmissionModal";
+import ReviewPanel from "../submissions/ReviewPanel";
 import Skeleton from "../../components/ui/Skeleton";
+import Badge from "../../components/ui/Badge";
+import Button from "../../components/ui/Button";
 import PriorityDot from "./PriorityDot";
 import { useToast } from "../../context/ToastContext";
 
-export default function TaskDrawer() {
+const REVIEW_BADGE = {
+  pending_review: { tone: "accent", label: "In review" },
+  approved: { tone: "success", label: "Approved" },
+  changes_requested: { tone: "danger", label: "Changes requested" },
+};
+
+export default function TaskDrawer({ myRole }) {
   const { workspaceId, projectId, boardId } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
   const taskId = searchParams.get("task");
@@ -27,6 +37,7 @@ export default function TaskDrawer() {
 
   const [titleDraft, setTitleDraft] = useState("");
   const [descDraft, setDescDraft] = useState("");
+  const [isSubmissionModalOpen, setIsSubmissionModalOpen] = useState(false);
 
   useEffect(() => {
     if (task) {
@@ -90,8 +101,19 @@ export default function TaskDrawer() {
                   <div className="flex items-center gap-2.5">
                     <PriorityDot priority={task.priority} />
                     <span className="text-caption font-mono uppercase tracking-wider text-slate-400 font-medium">Task Inspector</span>
+                    {REVIEW_BADGE[task.reviewStatus] && (
+                      <Badge tone={REVIEW_BADGE[task.reviewStatus].tone}>
+                        {REVIEW_BADGE[task.reviewStatus].label}
+                      </Badge>
+                    )}
                   </div>
                   <div className="flex items-center gap-2">
+                    {task.reviewStatus !== "pending_review" && task.reviewStatus !== "approved" && (
+                      <Button size="sm" onClick={() => setIsSubmissionModalOpen(true)}>
+                        <Send size={14} />
+                        {task.reviewStatus === "changes_requested" ? "Resubmit" : "Submit for Review"}
+                      </Button>
+                    )}
                     <button
                       onClick={handleDelete}
                       aria-label="Delete task"
@@ -152,6 +174,8 @@ export default function TaskDrawer() {
 
                   <div className="border-t border-hairline" />
 
+                  <ReviewPanel task={task} myRole={myRole} />
+
                   <SubtaskChecklist task={task} boardId={boardId} />
 
                   <div className="border-t border-hairline pt-5">
@@ -165,6 +189,14 @@ export default function TaskDrawer() {
               </div>
             )}
           </motion.div>
+
+          {task && (
+            <SubmissionModal
+              taskId={task._id}
+              isOpen={isSubmissionModalOpen}
+              onClose={() => setIsSubmissionModalOpen(false)}
+            />
+          )}
         </>
       )}
     </AnimatePresence>

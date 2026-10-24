@@ -11,6 +11,7 @@ const { protect } = require("../middleware/authMiddleware");
 const { requireTaskAccess, requireTaskRole } = require("../middleware/taskMiddleware");
 const taskCommentRoutes = require("./taskCommentRoutes");
 const taskAttachmentRoutes = require("./taskAttachmentRoutes");
+const taskSubmissionRoutes = require("./taskSubmissionRoutes");
 
 const router = express.Router();
 router.use(protect);
@@ -41,5 +42,11 @@ router.use("/:id/attachments", (req, res, next) => {
   req.params.taskId = req.params.id;
   next();
 }, taskAttachmentRoutes);
+
+// Nested: /api/tasks/:taskId/submissions
+router.use("/:id/submissions", (req, res, next) => {
+  req.params.taskId = req.params.id;
+  next();
+}, taskSubmissionRoutes);
 
 module.exports = router;

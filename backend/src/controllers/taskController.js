@@ -3,7 +3,9 @@ const List = require("../models/List");
 const asyncHandler = require("../utils/asyncHandler");
 const logActivity = require("../utils/logActivity");
 const { computeOrder, nextOrder } = require("../utils/ordering");
+const { canEnterDoneList, nextReviewStatusAfterMove } = require("../utils/submissionGate");
 const { createNotification, notifyMany } = require("../utils/createNotification");
+const { emitToBoard } = require("../socket/emit");
 
 // @route   POST /api/lists/:listId/tasks
 // @access  Private (effective role >= member)
@@ -38,6 +40,8 @@ const createTask = asyncHandler(async (req, res) => {
     targetId: task._id,
     message: `${req.user.name} created task "${task.title}"`,
   });
+
+  emitToBoard(req.board._id, "task:created", { task, listId: req.list._id.toString() });
 
   // Notify every assignee (except the creator — they already know)
   if (assignees && assignees.length > 0) {
@@ -103,6 +107,8 @@ const updateTask = asyncHandler(async (req, res) => {
 
   await req.task.save();
 
+  emitToBoard(req.board._id, "task:updated", { task: req.task });
+
   // Notify newly-added assignees (skip anyone who was already assigned)
   if (req.body.assignees) {
     const newlyAdded = req.body.assignees
@@ -139,13 +145,32 @@ const moveTask = asyncHandler(async (req, res) => {
     return res.status(400).json({ message: "Target list not found on this board" });
   }
 
+  // Gate: a task can only enter a Done list once its latest submission is approved
+  if (targetList.isDoneList && !canEnterDoneList(req.task.reviewStatus)) {
+    return res.status(409).json({
+      message: "This task must be submitted and approved before it can be marked done.",
+      reviewStatus: req.task.reviewStatus,
+    });
+  }
+
   const beforeTask = beforeTaskId ? await Task.findById(beforeTaskId) : null;
   const afterTask = afterTaskId ? await Task.findById(afterTaskId) : null;
 
   const sourceListId = req.task.list.toString();
   req.task.list = targetListId;
   req.task.order = computeOrder(beforeTask?.order ?? null, afterTask?.order ?? null);
+  req.task.reviewStatus = nextReviewStatusAfterMove({
+    reviewStatus: req.task.reviewStatus,
+    sourceIsDone: req.list.isDoneList,
+    targetIsDone: targetList.isDoneList,
+  });
   await req.task.save();
+
+  emitToBoard(req.board._id, "task:moved", {
+    task: req.task,
+    sourceListId,
+    targetListId: targetListId.toString(),
+  });
 
   if (sourceListId !== targetListId.toString()) {
     logActivity({
@@ -171,6 +196,7 @@ const toggleSubtask = asyncHandler(async (req, res) => {
   }
   subtask.done = req.body.done !== undefined ? req.body.done : !subtask.done;
   await req.task.save();
+  emitToBoard(req.board._id, "task:updated", { task: req.task });
   res.status(200).json({ success: true, task: req.task });
 });
 
@@ -183,13 +209,17 @@ const addSubtask = asyncHandler(async (req, res) => {
   }
   req.task.subtasks.push({ text, done: false });
   await req.task.save();
+  emitToBoard(req.board._id, "task:updated", { task: req.task });
   res.status(201).json({ success: true, task: req.task });
 });
 
 // @route   DELETE /api/tasks/:id
 // @access  Private (effective role >= admin)
 const deleteTask = asyncHandler(async (req, res) => {
+  const taskId = req.task._id.toString();
+  const listId = req.task.list.toString();
   await req.task.deleteOne();
+  emitToBoard(req.board._id, "task:deleted", { taskId, listId });
   res.status(200).json({ success: true, message: "Task deleted" });
 });
 

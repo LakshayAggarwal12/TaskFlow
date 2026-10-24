@@ -5,6 +5,7 @@ import Avatar from "../../components/ui/Avatar";
 import Dropdown from "../../components/ui/Dropdown";
 import { useAuth } from "../../context/AuthContext";
 import { useComments, useAddComment, useUpdateComment, useDeleteComment } from "./hooks/useComments";
+import { useCommentsSocket } from "./hooks/useCommentsSocket";
 import { timeAgo } from "../../lib/dateUtils";
 import Skeleton from "../../components/ui/Skeleton";
 
@@ -41,6 +42,7 @@ function CommentInput({ onSubmit, isSubmitting }) {
 }
 
 export default function CommentThread({ taskId }) {
+  useCommentsSocket(taskId);
   const { user } = useAuth();
   const { data: comments, isLoading } = useComments(taskId);
   const addComment = useAddComment(taskId);

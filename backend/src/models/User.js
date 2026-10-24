@@ -1,6 +1,9 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const validator = require("validator");
+const { NOTIFICATION_TYPES } = require("../utils/notificationPrefs");
+
+const emailPrefFields = Object.fromEntries(NOTIFICATION_TYPES.map((type) => [type, { type: Boolean }]));
 
 const userSchema = new mongoose.Schema(
   {
@@ -33,6 +36,10 @@ const userSchema = new mongoose.Schema(
       type: String,
       enum: ["user", "admin"],
       default: "user",
+    },
+    notificationPreferences: {
+      emailEnabled: { type: Boolean },
+      email: emailPrefFields,
     },
   },
   { timestamps: true }

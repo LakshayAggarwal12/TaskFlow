@@ -14,7 +14,7 @@ const formatBytes = (bytes) => {
 };
 
 function AttachmentIcon({ mimeType }) {
-  if (mimeType?.startsWith("image/")) return <ImageIcon size={16} className="text-flow shrink-0" />;
+  if (mimeType?.startsWith("image/")) return <ImageIcon size={16} className="text-accent shrink-0" />;
   return <FileText size={16} className="text-tertiary shrink-0" />;
 }
 
